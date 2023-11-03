@@ -8,7 +8,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          View a 3D model of your GitHub contribution graph.
+          Share it, print it, and more!
         </p>
         <a
           className="App-link"
@@ -19,7 +20,7 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+    </div >
   );
 }
 
