@@ -1,10 +1,9 @@
-import './App.css';
 import { CssVarsProvider } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
-import ModeToggle from "./components/ModeToggle";
+import ModeToggle from "../components/ModeToggle";
 
 function App() {
 	return (
