@@ -82,7 +82,7 @@ const normalizeTimeline = (
 }
 
 const getSaturdayOfWeek = (date: Date) => {
-	if (date.getDay() == 6) return date;
+	if (date.getDay() === 6) return date;
 	const daysToAdd = 6 - date.getDay();
 	const newDateEpoch = date.valueOf() + (daysToAdd * 1000 * 60 * 60 * 24)
 	return new Date(newDateEpoch)
