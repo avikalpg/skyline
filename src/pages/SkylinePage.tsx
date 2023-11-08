@@ -1,5 +1,9 @@
-import { Box, Typography } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../components/SingleFoldPageUIWrapper";
+import { Canvas } from "@react-three/fiber";
+import { Vector3 } from "three";
+import Skyline3d from "../components/Skyline3D";
+import { structureTimelineByWeek } from "../utils/generateContributionTimeline";
 
 function SkylinePage() {
 	const data = localStorage.getItem("data");
@@ -12,15 +16,21 @@ function SkylinePage() {
 		)
 	}
 	const { username, timeline } = JSON.parse(data) as { username: string, timeline: Record<string, number> };
+	const weekWiseTimeline = structureTimelineByWeek(timeline);
 	return (
 		<SingleFoldPageUIWrapper>
-			<Box>
-				Hello {username}!
-				{Object.entries(timeline).map(([k, v]) => (<Typography key={k}>
-					{k} :: {v}
-				</Typography>))}
-			</Box>
-		</SingleFoldPageUIWrapper>
+			<Stack sx={{ width: '100%', height: '100%' }}>
+				<Typography>
+					Hello {username}!
+				</Typography>
+				<Canvas>
+					{/* <ThreeDObject /> */}
+					<pointLight position={new Vector3(10, 10, 10)} intensity={500} />
+					<ambientLight intensity={0.5} />
+					<Skyline3d data={weekWiseTimeline} position={[0, -2, -5]} />
+				</Canvas>
+			</Stack>
+		</SingleFoldPageUIWrapper >
 	)
 }
 

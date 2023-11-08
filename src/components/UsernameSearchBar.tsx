@@ -3,7 +3,7 @@ import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import { getUserEvents } from '../utils/getUserEvents';
 import { generateContributionTimeline } from '../utils/generateContributionTimeline';
-import { Box, Typography } from '@mui/joy';
+import { Stack, Typography } from '@mui/joy';
 
 
 function UsernameSearchBar() {
@@ -33,7 +33,7 @@ function UsernameSearchBar() {
 	}
 
 	return (
-		<Box>
+		<Stack>
 			<Input
 				id='searchUser'
 				name="githubHandle"
@@ -62,7 +62,7 @@ function UsernameSearchBar() {
 					width: 'auto'
 				}}>{errorMessage}</Typography>
 			)}
-		</Box>
+		</Stack>
 	);
 }
 
