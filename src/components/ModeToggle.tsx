@@ -23,8 +23,8 @@ function ModeToggle() {
 				track: {
 					children: (
 						<React.Fragment>
-							<LightMode />
 							<DarkMode />
+							<LightMode />
 						</React.Fragment>
 					),
 					sx: {

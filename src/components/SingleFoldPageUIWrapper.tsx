@@ -5,7 +5,6 @@ import { PropsWithChildren } from 'react';
 function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 	return (
 		<Sheet variant='soft' sx={{
-			minWidth: 500,
 			width: '100%',
 			height: '100vh',
 			mx: 'auto', // margin left & right
