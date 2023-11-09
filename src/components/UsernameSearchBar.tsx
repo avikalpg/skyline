@@ -1,35 +1,21 @@
 import React from 'react';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
-import { getUserEvents } from '../utils/getUserEvents';
-import { generateContributionTimeline } from '../utils/generateContributionTimeline';
 import { Stack, Typography } from '@mui/joy';
+import { useSearchParams } from 'react-router-dom';
 
 
 function UsernameSearchBar() {
+	const [searchParams] = useSearchParams()
 	const [username, setUsername] = React.useState("");
-	const [errorMessage, setErrorMessage] = React.useState("");
+	const [errorMessage, setErrorMessage] = React.useState(searchParams.get('err'));
 
 	const getGitHubContributions = () => { // TODO: take the event types
 		if (username === "") {
 			setErrorMessage(`Please enter a username.`);
 			return;
 		}
-		getUserEvents(username)
-			.then((userEvents) => {
-				// groupEventsByType(userEvents)
-				const timeline = generateContributionTimeline(userEvents);
-				if (timeline) {
-					localStorage.setItem("data", JSON.stringify({ username, timeline }))
-					window.location.href = '/skyline'
-				}
-				else {
-					setErrorMessage(`We did not find any @${username} on GitHub, try it again.`)
-				}
-			})
-			.catch(err => {
-				console.error('Error in getting data:', err);
-			})
+		window.location.href = `/skyline/${username}`;
 	}
 
 	return (
@@ -56,7 +42,7 @@ function UsernameSearchBar() {
 				}}
 				onChange={(event) => setUsername(event.target.value)}
 			/>
-			{(errorMessage === "") ? null : (
+			{(!errorMessage || errorMessage === "") ? null : (
 				<Typography color='danger' level='body-md' variant='soft' sx={{
 					px: 2,
 					width: 'auto'
