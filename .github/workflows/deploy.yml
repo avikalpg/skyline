@@ -32,4 +32,8 @@ jobs:
         git config --global user.name "Avikalp Kumar Gupta"
 
     - name: Deploy to GitHub Pages
-      run: npm run deploy
+      run: |
+        npm install -g gh-pages
+        gh-pages -d build -b gh-pages -m "Deploy to GitHub Pages" -u "Avikalp Kumar Gupta <avikalpgupta@gmail.com>"
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
