@@ -9,7 +9,8 @@ function App() {
 			<Router>
 				<Routes>
 					<Route path="/" Component={Home} />
-					<Route path="/skyline" Component={SkylinePage} />
+					<Route path="/skyline" Component={Home} />
+					<Route path="/skyline/:username" Component={SkylinePage} />
 				</Routes>
 			</Router>
 		</CssVarsProvider>

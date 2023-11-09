@@ -24,7 +24,6 @@ export const getUserEvents = async (username: string) => { // TODO: get date ran
 				console.error("[ERROR] Failed to get results for a page.")
 				return;
 			}
-			console.log(result.value.data);
 			userEvents.push(...result.value.data);
 		})
 	})
