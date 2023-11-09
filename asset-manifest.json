@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/skyline/static/css/main.d6958fb0.css",
-    "main.js": "/skyline/static/js/main.7a834dad.js",
+    "main.js": "/skyline/static/js/main.704ec843.js",
     "static/js/787.bfe2863c.chunk.js": "/skyline/static/js/787.bfe2863c.chunk.js",
     "static/media/inter-latin-ext-400-normal.woff": "/skyline/static/media/inter-latin-ext-400-normal.3ccf133441ba225afa51.woff",
     "static/media/inter-latin-400-normal.woff": "/skyline/static/media/inter-latin-400-normal.662f290710a57b8dfbbd.woff",
@@ -19,11 +19,11 @@
     "static/media/inter-vietnamese-400-normal.woff2": "/skyline/static/media/inter-vietnamese-400-normal.789afb71d327988e2fc8.woff2",
     "index.html": "/skyline/index.html",
     "main.d6958fb0.css.map": "/skyline/static/css/main.d6958fb0.css.map",
-    "main.7a834dad.js.map": "/skyline/static/js/main.7a834dad.js.map",
+    "main.704ec843.js.map": "/skyline/static/js/main.704ec843.js.map",
     "787.bfe2863c.chunk.js.map": "/skyline/static/js/787.bfe2863c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d6958fb0.css",
-    "static/js/main.7a834dad.js"
+    "static/js/main.704ec843.js"
   ]
 }
