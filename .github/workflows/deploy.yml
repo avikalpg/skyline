@@ -25,6 +25,8 @@ jobs:
 
     - name: Build
       run: npm run build
+      env:
+        REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
 
     - name: Deploy to GitHub Pages
       run: |
@@ -32,4 +34,3 @@ jobs:
         npx gh-pages -d build -u "github-actions-bot <support+actions@github.com>"
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-        REACT_APP_GITHUB_TOKEN: ${{ secrets.GH_PAT }}
