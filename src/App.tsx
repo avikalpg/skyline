@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import { CssVarsProvider } from '@mui/joy/styles';
 import SkylinePage from './pages/SkylinePage';
@@ -6,13 +6,13 @@ import SkylinePage from './pages/SkylinePage';
 function App() {
 	return (
 		<CssVarsProvider>
-			<Router>
+			<HashRouter>
 				<Routes>
 					<Route path="/" Component={Home} />
 					<Route path="/skyline" Component={Home} />
 					<Route path="/skyline/:username" Component={SkylinePage} />
 				</Routes>
-			</Router>
+			</HashRouter>
 		</CssVarsProvider>
 	);
 }

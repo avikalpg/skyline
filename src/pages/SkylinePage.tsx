@@ -15,7 +15,7 @@ function SkylinePage() {
 
 	useEffect(() => {
 		if (!username || username === "") {
-			window.location.href = `/skyline?err=${encodeURIComponent("Please enter a username")}`
+			window.location.href = `#/skyline?err=${encodeURIComponent("Please enter a username")}`
 			setErrorMessage(`No username provided!`);
 			return;
 		}
@@ -25,7 +25,7 @@ function SkylinePage() {
 				const userTimeline = generateContributionTimeline(userEvents);
 				if (!userTimeline) {
 					const errorMessage = `We did not find any @${username} on GitHub, try it again.`
-					window.location.href = `/skyline?err=${encodeURIComponent(errorMessage)}`
+					window.location.href = `#/skyline?err=${encodeURIComponent(errorMessage)}`
 					setErrorMessage(`Username not found!`);
 					return;
 				}
@@ -35,7 +35,7 @@ function SkylinePage() {
 			.catch((err: Error) => {
 				console.error('Error in getting data:', err);
 				const errorMsg = `Error in getting data: ${err.message}`
-				window.location.href = `/skyline?err=${encodeURIComponent(errorMsg)}`
+				window.location.href = `#/skyline?err=${encodeURIComponent(errorMsg)}`
 				setErrorMessage(errorMsg);
 			})
 	}, [username])

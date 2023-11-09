@@ -15,7 +15,7 @@ function UsernameSearchBar() {
 			setErrorMessage(`Please enter a username.`);
 			return;
 		}
-		window.location.href = `/skyline/${username}`;
+		window.location.href = `#/skyline/${username}`;
 	}
 
 	return (
