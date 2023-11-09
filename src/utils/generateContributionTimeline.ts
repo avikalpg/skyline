@@ -24,7 +24,6 @@ export const structureTimelineByWeek = (dateCountMap: Record<string, number>) =>
 	const numColumns = 7;
 	const timelineByWeek: number[][] = Array.from({ length: numRows }, () => Array(numColumns).fill(0));
 	const lastDate = getSaturdayOfWeek(new Date());
-	console.log("Last date: ", lastDate)
 	for (const dateStr in normalizedDateCountMap) {
 		const date = new Date(dateStr)
 		const daysUntilEnd = Math.ceil(Math.abs(lastDate.valueOf() - date.valueOf()) / (1000 * 60 * 60 * 24));
