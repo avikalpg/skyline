@@ -8,7 +8,7 @@ git clone https://github.com/avikalpg/skyline.git
 cd skyline
 echo REACT_APP_GITHUB_TOKEN= > .env.local
 ```
-2. Open the file `.env.local` and paste your access token, which you can get from [here](https://github.com/settings/tokens/new?description=Skyline&scopes=read:user) (make sure to adjust the settings for the access token). <br>
+2. Open the file `.env.local` and paste your access token, which you can get from [here](https://github.com/settings/tokens/new?description=Skyline) (make sure to adjust the settings for the access token). <br>
 Now your file should look something like this:
 ```
 REACT_APP_GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
