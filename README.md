@@ -1,6 +1,26 @@
 # skyline
 Replacement of the GitHub skyline projecct
 
+## How to use
+1. Run the following commands:
+```sh
+git clone https://github.com/avikalpg/skyline.git
+cd skyline
+echo REACT_APP_GITHUB_TOKEN= > .env.local
+```
+2. Open the file `.env.local` and paste your access token, which you can get from [here](https://github.com/settings/tokens/new?description=Skyline&scopes=read:user) (make sure to adjust the settings for the access token). <br>
+Now your file should look something like this:
+```
+REACT_APP_GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+3. Run the following commands:
+```sh
+npm install
+npm start
+```
+2. Open [http://localhost:3000](http://localhost:3000) to view it in the browser if it doesn't open automatically.
+3. Wait a while for the page to load.
+
 ## Available Scripts
 
 In the project directory, you can run:
