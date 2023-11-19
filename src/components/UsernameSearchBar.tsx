@@ -1,21 +1,20 @@
+"use client"
+
 import React from 'react';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import { Stack, Typography } from '@mui/joy';
-import { useSearchParams } from 'react-router-dom';
 
-
-function UsernameSearchBar() {
-	const [searchParams] = useSearchParams()
+function UsernameSearchBar(props: { err?: string }) {
 	const [username, setUsername] = React.useState("");
-	const [errorMessage, setErrorMessage] = React.useState(searchParams.get('err'));
+	const [errorMessage, setErrorMessage] = React.useState(props.err);
 
 	const getGitHubContributions = () => { // TODO: take the event types
 		if (username === "") {
 			setErrorMessage(`Please enter a username.`);
 			return;
 		}
-		window.location.href = `#/skyline/${username}`;
+		window.location.href = `/skyline/${username}`;
 	}
 
 	return (
