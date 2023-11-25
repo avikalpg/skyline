@@ -3,10 +3,10 @@ import SingleFoldPageUIWrapper from "../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
 import Skyline3d from "../components/Skyline3D";
-import { generateContributionTimeline, structureTimelineByWeek } from "../utils/generateContributionTimeline";
+import { structureTimelineByWeek } from "../utils/generateContributionTimeline";
 import { useParams } from "react-router";
-import { getUserEvents } from "../utils/getUserEvents";
 import { useEffect, useState } from "react";
+import { getUserContributions } from "../utils/getUserContributions";
 
 function SkylinePage() {
 	const { username } = useParams();
@@ -19,25 +19,15 @@ function SkylinePage() {
 			setErrorMessage(`No username provided!`);
 			return;
 		}
-		getUserEvents(username)
-			.then((userEvents) => {
-				// groupEventsByType(userEvents)
-				const userTimeline = generateContributionTimeline(userEvents);
-				if (!userTimeline) {
-					const errorMessage = `We did not find any @${username} on GitHub, try it again.`
-					window.location.href = `#/skyline?err=${encodeURIComponent(errorMessage)}`
-					setErrorMessage(`Username not found!`);
-					return;
-				}
-				const weekWiseTimeline = structureTimelineByWeek(userTimeline);
-				setTimeline(weekWiseTimeline);
-			})
-			.catch((err: Error) => {
-				console.error('Error in getting data:', err);
-				const errorMsg = `Error in getting data: ${err.message}`
-				window.location.href = `#/skyline?err=${encodeURIComponent(errorMsg)}`
-				setErrorMessage(errorMsg);
-			})
+		getUserContributions(username).then((userContributions) => {
+			const weekWiseTimeline = structureTimelineByWeek(userContributions);
+			setTimeline(weekWiseTimeline);
+		}).catch((err: Error) => {
+			console.error('Error in getting data:', err);
+			const errorMsg = `Error in getting data: ${err.message}`
+			window.location.href = `#/skyline?err=${encodeURIComponent(errorMsg)}`
+			setErrorMessage(errorMsg);
+		})
 	}, [username])
 
 	if (errorMessage && errorMessage !== "") {
