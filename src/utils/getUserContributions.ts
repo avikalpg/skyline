@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GitHubContributionCalendar } from '../github-types';
+import { getFirstDayOfYearFromLastDay, getSaturdayOfWeek, getSundayOfWeek } from './generateContributionTimeline';
 
 const axiosInstance = axios.create({
 	baseURL: 'https://api.github.com',
@@ -20,13 +21,14 @@ type UserContributionsResponseType = {
 	}
 }
 
-export const getUserContributions = async (username: string) => { // TODO: get date range & implement paginated reponse
-	const startDate = '2023-01-01T00:00:00Z';
-	const endDate = '2023-12-31T23:59:59Z';
+export const getUserContributions = async (username: string, endDate: Date) => {
+	const startDate = getFirstDayOfYearFromLastDay(endDate);
+	const rangeStartDate = getSundayOfWeek(startDate);
+	const rangeEndDate = getSaturdayOfWeek(endDate);
 	const query = `
   {
     user(login: "${username}") {
-      contributionsCollection(from: "${startDate}", to: "${endDate}") {
+      contributionsCollection(from: "${rangeStartDate.toISOString()}", to: "${rangeEndDate.toISOString()}") {
         contributionCalendar {
           totalContributions
           weeks {
