@@ -15,7 +15,9 @@ function ModeToggle() {
 		setMounted(true);
 	}, []);
 	if (!mounted) {
-		return null;
+		return (
+			<div className='w-full h-8'></div>
+		);
 	}
 
 	return (
