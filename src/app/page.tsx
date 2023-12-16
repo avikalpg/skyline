@@ -1,3 +1,4 @@
+import React from 'react';
 import Typography from '@mui/joy/Typography';
 import UsernameSearchBar from '../components/UsernameSearchBar';
 import SingleFoldPageUIWrapper from '../components/SingleFoldPageUIWrapper';
