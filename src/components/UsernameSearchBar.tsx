@@ -40,7 +40,7 @@ function UsernameSearchBar() {
 					'--Input-radius': `16px`,
 					'--Input-decoratorChildHeight': `28px`,
 				}}
-				onChange={(event) => setUsername(event.target.value)}
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value)}
 			/>
 			{(!errorMessage || errorMessage === "") ? null : (
 				<Typography color='danger' level='body-md' variant='soft' sx={{
