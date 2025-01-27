@@ -81,6 +81,6 @@ export const getSundayOfWeek = (date: Date) => {
 export const getFirstDayOfYearFromLastDay = (lastDay: Date) => {
 	const firstDay = new Date(lastDay);
 	firstDay.setFullYear(lastDay.getFullYear() - 1);
-	firstDay.setDate(firstDay.getDate() + 8);
+	firstDay.setDate(firstDay.getDate() + 1);
 	return firstDay;
 }
