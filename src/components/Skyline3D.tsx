@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group } from "three";
+import { BasePlatform } from "./BasePlatform";
 
-const SCALE = 0.25
+export const SCALE = 0.25
 
 interface Skyline3DProps extends GroupProps {
 	data: number[][]
@@ -28,10 +29,7 @@ function Skyline3d(props: Skyline3DProps) {
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
 			>
-				<mesh receiveShadow position={[-0.5 * SCALE, -0.5 * SCALE, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-					<boxGeometry args={[52 * SCALE, 7 * SCALE, 1 * SCALE]} />
-					<meshStandardMaterial color="grey" />
-				</mesh>
+				<BasePlatform />
 				{props.data.map((row, i) => row.map((bar, j) => {
 					if (bar === 0) return null;
 					const barHeight = bar * 5;
