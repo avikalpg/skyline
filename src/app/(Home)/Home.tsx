@@ -1,6 +1,6 @@
 import Typography from '@mui/joy/Typography';
-import UsernameSearchBar from '../components/UsernameSearchBar';
-import SingleFoldPageUIWrapper from '../components/SingleFoldPageUIWrapper';
+import UsernameSearchBar from '../../components/UsernameSearchBar';
+import SingleFoldPageUIWrapper from '../../components/SingleFoldPageUIWrapper';
 
 function Home() {
 	return (

@@ -1,15 +1,13 @@
 import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
-import SingleFoldPageUIWrapper from "../components/SingleFoldPageUIWrapper";
+import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
-import Skyline3d from "../components/Skyline3D";
-import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../utils/generateContributionTimeline";
-import { useParams } from "react-router";
+import Skyline3d from "../../components/Skyline3D";
+import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
-import { getUserContributions } from "../utils/getUserContributions";
+import { getUserContributions } from "../../utils/getUserContributions";
 
-function SkylinePage() {
-	const { username } = useParams();
+function SkylinePage({ username }: { username: string }) {
 	const [timeline, setTimeline] = useState<number[][]>();
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -36,7 +34,7 @@ function SkylinePage() {
 
 	useEffect(() => {
 		if (!username || username === "") {
-			window.location.href = `#/skyline?err=${encodeURIComponent("Please enter a username")}`
+			window.location.href = `/?err=${encodeURIComponent("Please enter a username")}`
 			setErrorMessage(`No username provided!`);
 			return;
 		}
@@ -46,7 +44,7 @@ function SkylinePage() {
 		}).catch((err: Error) => {
 			console.error('Error in getting data:', err);
 			const errorMsg = `Error in getting data: ${err.message}`
-			window.location.href = `#/skyline?err=${encodeURIComponent(errorMsg)}`
+			window.location.href = `/?err=${encodeURIComponent(errorMsg)}`
 			setErrorMessage(errorMsg);
 		})
 	}, [username, endDate])
