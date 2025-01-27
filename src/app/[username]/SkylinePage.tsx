@@ -3,7 +3,7 @@
 import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
-import { Vector3 } from "three";
+import { PCFSoftShadowMap, Vector3 } from "three";
 import Skyline3d from "../../components/Skyline3D";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
@@ -100,9 +100,9 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					}}>{errorMessage}</Typography>
 				) : null}
 				{timeline ? (
-					<Canvas>
+					<Canvas shadows={{ type: PCFSoftShadowMap }}>
 						{/* <ThreeDObject /> */}
-						<pointLight position={new Vector3(10, 10, 10)} intensity={500} />
+						<pointLight position={new Vector3(-10, 15, 15)} intensity={800} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
 						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
 						<Skyline3d data={timeline} position={[0, -2, -5]} />
 					</Canvas>
