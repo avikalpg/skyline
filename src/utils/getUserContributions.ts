@@ -5,7 +5,7 @@ import { getFirstDayOfYearFromLastDay, getSaturdayOfWeek, getSundayOfWeek } from
 const axiosInstance = axios.create({
 	baseURL: 'https://api.github.com',
 	headers: {
-		Authorization: `bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+		Authorization: `bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
 		"Content-Type": 'application/json'
 	},
 });
