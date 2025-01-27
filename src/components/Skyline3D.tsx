@@ -2,9 +2,7 @@ import React, { useRef, useState } from "react";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { BasePlatform } from "./BasePlatform";
-
-export const SCALE = 0.25
-
+import { SCALE } from "src/utils/3dUtils";
 interface Skyline3DProps extends GroupProps {
 	data: number[][]
 }
