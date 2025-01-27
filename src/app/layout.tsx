@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "../index.css";
+import ThemeRegistry from "./ThemeRegistry";
 
 export const metadata: Metadata = {
 	title: "Skyline: Your contributions story in 3D",
@@ -18,7 +19,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<div id="root">{children}</div>
+				<ThemeRegistry options={{ key: 'joy' }}>{children}</ThemeRegistry>
 			</body>
 		</html>
 	)

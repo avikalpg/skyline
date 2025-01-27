@@ -2,20 +2,19 @@ import React from 'react';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import { Stack, Typography } from '@mui/joy';
-import { useSearchParams } from 'react-router-dom';
-
+import { useSearchParams } from 'next/navigation';
 
 function UsernameSearchBar() {
-	const [searchParams] = useSearchParams()
+	const searchParams = useSearchParams();
 	const [username, setUsername] = React.useState("");
 	const [errorMessage, setErrorMessage] = React.useState(searchParams.get('err'));
 
-	const getGitHubContributions = () => { // TODO: take the event types
+	const getGitHubContributions = () => {
 		if (username === "") {
 			setErrorMessage(`Please enter a username.`);
 			return;
 		}
-		window.location.href = `#/skyline/${username}`;
+		window.location.href = `/${username}`;
 	}
 
 	return (
