@@ -104,7 +104,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 						{/* <ThreeDObject /> */}
 						<pointLight position={new Vector3(-10, 15, 15)} intensity={800} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
 						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
-						<Skyline3d data={timeline} position={[0, -2, -5]} />
+						<Skyline3d data={timeline} username={username} position={[0, -2, -5]} />
 					</Canvas>
 				) : (
 					<Skeleton variant="rectangular" animation="wave" sx={{
