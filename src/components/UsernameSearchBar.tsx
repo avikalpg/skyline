@@ -28,7 +28,7 @@ function UsernameSearchBar() {
 				placeholder="github_username"
 				size="md"
 				endDecorator={
-					<Button variant="soft" size="sm" onClick={getGitHubContributions}>
+					<Button variant='plain' size="sm" onClick={getGitHubContributions}>
 						Create a Skyline --&gt;
 					</Button>
 				}

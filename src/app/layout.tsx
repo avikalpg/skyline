@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "../index.css";
 import ThemeRegistry from "./ThemeRegistry";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
 	title: "Skyline: Your contributions story in 3D",
@@ -20,6 +21,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<ThemeRegistry options={{ key: 'joy' }}>{children}</ThemeRegistry>
+				<Analytics />
 			</body>
 		</html>
 	)
