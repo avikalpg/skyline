@@ -57,6 +57,8 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 		if (error) {
 			console.error("Server error:", error);
 			setErrorMessage("Error fetching contributions. Please try again later.");
+		} else {
+			setErrorMessage("");
 		}
 	}, [error]);
 
@@ -91,13 +93,17 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
-					<Typography color="danger" level="title-lg">{errorMessage}</Typography>
+					<Typography color="danger" variant="soft" level="body-lg" sx={{
+						px: 2,
+						my: 2,
+						width: 'auto'
+					}}>{errorMessage}</Typography>
 				) : null}
 				{timeline ? (
 					<Canvas>
 						{/* <ThreeDObject /> */}
 						<pointLight position={new Vector3(10, 10, 10)} intensity={500} />
-						<ambientLight intensity={0.5} />
+						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
 						<Skyline3d data={timeline} position={[0, -2, -5]} />
 					</Canvas>
 				) : (
