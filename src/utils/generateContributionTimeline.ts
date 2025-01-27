@@ -5,7 +5,7 @@ export const structureTimelineByWeek = (dateCountMap: GitHubContributionCalendar
 	for (const week of dateCountMap.weeks) {
 		timelineByWeek.push(week.contributionDays.map(day => day.contributionCount))
 	}
-	const normalizedTimelineByWeek = normalizeTimeline(timelineByWeek, 'zero-max')
+	const normalizedTimelineByWeek = normalizeTimeline(timelineByWeek, 'zero-max');
 	return normalizedTimelineByWeek;
 }
 
@@ -17,6 +17,9 @@ const normalizeTimeline = (
 		case 'zero-max': {
 			const max = Math.max(...timeline.flat())
 			const newTimeline: number[][] = []
+			if (max === 0) {
+				return timeline;
+			}
 			for (const week of timeline) {
 				newTimeline.push(week.map(day => day / max))
 			}
@@ -26,6 +29,9 @@ const normalizeTimeline = (
 			const max = Math.max(...timeline.flat())
 			const min = Math.min(...timeline.flat())
 			const newTimeline: number[][] = []
+			if (max - min === 0) {
+				return timeline;
+			}
 			for (const week of timeline) {
 				newTimeline.push(week.map(day => (day - min) / (max - min)))
 			}
@@ -46,6 +52,9 @@ const normalizeTimeline = (
 			const mean = calculateMean(timeline.flat());
 			const std = calculateStandardDeviation(timeline.flat(), mean);
 			const newTimeline: number[][] = []
+			if (std === 0) {
+				return timeline;
+			}
 			for (const week of timeline) {
 				newTimeline.push(week.map(day => (day - mean) / std));
 			}

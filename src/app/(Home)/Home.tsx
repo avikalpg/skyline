@@ -1,6 +1,9 @@
+'use client';
+
 import Typography from '@mui/joy/Typography';
 import UsernameSearchBar from '../../components/UsernameSearchBar';
 import SingleFoldPageUIWrapper from '../../components/SingleFoldPageUIWrapper';
+import { Suspense } from 'react';
 
 function Home() {
 	return (
@@ -13,7 +16,9 @@ function Home() {
 				<Typography level="body-sm">Share it, print it, and more!</Typography>
 			</div>
 
-			<UsernameSearchBar />
+			<Suspense fallback={<div>Loading...</div>}>
+				<UsernameSearchBar />
+			</Suspense>
 		</SingleFoldPageUIWrapper>
 	);
 }

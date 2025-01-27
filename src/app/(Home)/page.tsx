@@ -1,6 +1,6 @@
 import "../../index.css";
-import { ClientOnly } from "./client";
+import Home from "./Home";
 
 export default function Page() {
-	return <ClientOnly />
+	return <Home />
 }

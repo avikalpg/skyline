@@ -1,26 +1,40 @@
+'use client';
+
 import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
 import Skyline3d from "../../components/Skyline3D";
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
-import { getUserContributions } from "../../utils/getUserContributions";
+import { GitHubContributionCalendar } from 'src/github-types';
 
-function SkylinePage({ username }: { username: string }) {
-	const [timeline, setTimeline] = useState<number[][]>();
+interface SkylinePageProps {
+	username: string;
+	userContributionCalendar?: GitHubContributionCalendar;
+	endDate: Date;
+	error?: string;
+}
+
+export default function SkylinePage({ username, userContributionCalendar, endDate: initialEndDate, error }: SkylinePageProps) {
+	const [timeline, setTimeline] = useState<number[][] | undefined>(undefined);
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const currentDate = new Date();
 	const minDate = '2008-01-01';
 	const maxDate = `${currentDate.getFullYear()}-12-31`;
-	const [endDate, setEndDate] = useState(currentDate);
+	const [endDate, setEndDate] = useState(initialEndDate);
 	const [dateErr, setDateErr] = useState("");
+
+	const searchParams = useSearchParams();
+	const router = useRouter();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const enteredDate = new Date(e.target.value);
 		const minDateObj = new Date(minDate)
 		const maxDateObj = new Date(maxDate)
+		setEndDate(enteredDate);
 		if (enteredDate < minDateObj || enteredDate > maxDateObj) {
 			// Show an error message or handle out-of-range input as needed
 			const errMsg = `Valid dates: ${minDateObj.getFullYear()}-${maxDateObj.getFullYear()}`
@@ -28,34 +42,26 @@ function SkylinePage({ username }: { username: string }) {
 			setDateErr(errMsg);
 		} else {
 			setDateErr("")
-			setEndDate(enteredDate);
+			const newSearchParams = new URLSearchParams(searchParams);
+			newSearchParams.set('endDate', e.target.value);
+			router.push(`/${username}?${newSearchParams.toString()}`);
 		}
 	};
 
 	useEffect(() => {
-		if (!username || username === "") {
-			window.location.href = `/?err=${encodeURIComponent("Please enter a username")}`
-			setErrorMessage(`No username provided!`);
-			return;
-		}
-		getUserContributions(username, endDate).then((userContributions) => {
-			const weekWiseTimeline = structureTimelineByWeek(userContributions);
-			setTimeline(weekWiseTimeline);
-		}).catch((err: Error) => {
-			console.error('Error in getting data:', err);
-			const errorMsg = `Error in getting data: ${err.message}`
-			window.location.href = `/?err=${encodeURIComponent(errorMsg)}`
-			setErrorMessage(errorMsg);
-		})
-	}, [username, endDate])
+		if (userContributionCalendar)
+			setTimeline(structureTimelineByWeek(userContributionCalendar));
+	}, [userContributionCalendar]);
 
-	if (errorMessage && errorMessage !== "") {
-		return (
-			<SingleFoldPageUIWrapper>
-				<Typography color="danger" level="title-lg">{errorMessage}</Typography>
-			</SingleFoldPageUIWrapper>
-		)
-	}
+	useEffect(() => {
+		if (error) {
+			console.error("Server error:", error);
+			setErrorMessage("Error fetching contributions. Please try again later.");
+		} else {
+			setErrorMessage("");
+		}
+	}, [error]);
+
 	return (
 		<SingleFoldPageUIWrapper>
 			<Stack sx={{ width: '100%', height: '100%' }}>
@@ -74,11 +80,11 @@ function SkylinePage({ username }: { username: string }) {
 							type="date"
 							slotProps={{
 								input: {
-									min: '2008-01-01',
-									max: `${new Date().getFullYear()}-12-31`,
+									min: minDate,
+									max: maxDate,
 								}
 							}}
-							defaultValue={currentDate.toISOString().split('T')[0]}
+							value={endDate.toISOString().split('T')[0]}
 							onChange={handleChange}
 						/>
 						{dateErr && dateErr !== "" && (
@@ -86,11 +92,18 @@ function SkylinePage({ username }: { username: string }) {
 						)}
 					</FormControl>
 				</Stack>
+				{(errorMessage && errorMessage !== "") ? (
+					<Typography color="danger" variant="soft" level="body-lg" sx={{
+						px: 2,
+						my: 2,
+						width: 'auto'
+					}}>{errorMessage}</Typography>
+				) : null}
 				{timeline ? (
 					<Canvas>
 						{/* <ThreeDObject /> */}
 						<pointLight position={new Vector3(10, 10, 10)} intensity={500} />
-						<ambientLight intensity={0.5} />
+						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
 						<Skyline3d data={timeline} position={[0, -2, -5]} />
 					</Canvas>
 				) : (
@@ -100,8 +113,6 @@ function SkylinePage({ username }: { username: string }) {
 					}} />
 				)}
 			</Stack>
-		</SingleFoldPageUIWrapper >
-	)
+		</SingleFoldPageUIWrapper>
+	);
 }
-
-export default SkylinePage;
