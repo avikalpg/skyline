@@ -20,18 +20,27 @@ function Skyline3d(props: Skyline3DProps) {
 	return (
 		<>
 			<group
+				castShadow
+				receiveShadow
 				position={[0, -1, 0]}
 				rotation={[0.2, -0.25, 0]}
 				{...groupProps}
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
 			>
+				<mesh receiveShadow position={[-0.5 * SCALE, -0.5 * SCALE, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+					<boxGeometry args={[52 * SCALE, 7 * SCALE, 1 * SCALE]} />
+					<meshStandardMaterial color="grey" />
+				</mesh>
 				{props.data.map((row, i) => row.map((bar, j) => {
-					const barHeight = bar * 5 + SCALE; // adding SCALE to create the base
+					if (bar === 0) return null;
+					const barHeight = bar * 5;
 					const barPosition = [SCALE * (i - Math.floor(data.length / 2)), SCALE * (j - 3)]
 					return (
 						<mesh key={`[${i},${j}]`}
 							position={[barPosition[0], barHeight / 2, barPosition[1]]}
+							castShadow
+							receiveShadow
 						>
 							<boxGeometry args={[SCALE, barHeight, SCALE]} />
 							<meshStandardMaterial
