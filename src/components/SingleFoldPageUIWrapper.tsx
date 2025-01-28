@@ -2,7 +2,6 @@ import Sheet from '@mui/joy/Sheet';
 import { PropsWithChildren } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { Box } from '@mui/joy';
 
 function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 	return (
