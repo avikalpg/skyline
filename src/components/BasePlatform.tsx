@@ -26,17 +26,37 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 			alignment: 'right',
 		}
 	];
-	const positionFromAlignment = (alignment: 'left' | 'center' | 'right', textLength: number) => {
+	const creditsText = "git-skyline by avikalpg";
+
+	const positionFromAlignment = (
+		alignment: 'left' | 'center' | 'right',
+		textLength: number,
+		side: 'front' | 'back' = 'front',
+		textScale: number = 1.5 * SCALE
+	) => {
+		const textOffsetUnit = textScale / 1.5;
+		let x = 0;
+
 		switch (alignment) {
 			case 'left':
-				return new Vector3(-topWidth / 2 + 2 * SCALE, -depth / 4, topHeight / 2);
+				x = -topWidth / 2 + 2 * textOffsetUnit;
+				break;
 			case 'center':
-				return new Vector3(-(textLength / 2) * SCALE, -depth / 4, topHeight / 2);
+				x = -(textLength / 2) * textOffsetUnit;
+				break;
 			case 'right':
-				return new Vector3(topWidth / 2 - (textLength + 2) * SCALE, -depth / 4, topHeight / 2);
-			default:
+				x = topWidth / 2 - (textLength + 2) * textOffsetUnit;
 				break;
 		}
+
+		if (side === 'back') {
+			x *= -1;
+		}
+
+		const y = -depth / 4;
+		const z = side === 'front' ? topHeight / 2 : -topHeight / 2;
+
+		return new Vector3(x, y, z);
 	}
 
 	// Create the base platform geometry
@@ -87,6 +107,22 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 					{textConfig.text}
 				</Text3D>
 			))}
-		</group>
+			<Text3D
+				font="/helvetiker_regular.typeface.json"
+				size={1 * SCALE}
+				height={0.5 * SCALE}
+				curveSegments={12}
+				bevelEnabled
+				bevelThickness={0.03 * SCALE}
+				bevelSize={0.02 * SCALE}
+				position={positionFromAlignment('center', creditsText.length, 'back', SCALE)}
+				rotation={[Math.atan((baseHeight - topHeight) / depth), Math.PI, 0]}
+				castShadow
+				bevelSegments={5}
+				material={material}
+			>
+				{creditsText}
+			</Text3D>
+		</group >
 	);
 }
