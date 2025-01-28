@@ -59,7 +59,6 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 
 	// Color temperature adjustments based on elevation
 	const elevationDegrees = elevation * 180 / Math.PI
-	console.log(`Elevation: ${elevationDegrees}, Intensity: ${intensity}`)
 	if (elevationDegrees < 0) {
 		// Below horizon - night
 		light.color.setHSL(0.67, 0.8, 0.2)
@@ -84,7 +83,6 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 	light.shadow.mapSize.height = 2048;
 
 	const ambientComponent = new AmbientLight(0x404040, 4 * (1 + intensity / INTENSITY_MULTIPLIER));
-	console.log(`ambient intensity: ${ambientComponent.intensity}`)
 
 	return (
 		<group>

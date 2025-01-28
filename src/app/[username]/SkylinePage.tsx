@@ -3,17 +3,18 @@
 import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
-import { PCFSoftShadowMap } from "three";
-import Skyline3d from "../../components/Skyline3D";
+import { PCFSoftShadowMap, Scene } from "three";
+import Skyline3d from "../../components/3d/Skyline3D";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { formatDate, getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
-import { Lights } from "src/components/Lights";
+import { Lights } from "src/components/3d/Lights";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { SCALE } from "src/utils/3dUtils";
 import Toggle from "src/components/Toggle";
 import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
+import { Download3DButton } from "src/components/Download3DButton";
 
 interface SkylinePageProps {
 	username: string;
@@ -37,6 +38,8 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 
 	const searchParams = useSearchParams();
 	const router = useRouter();
+
+	const [scene, setScene] = useState<Scene | undefined>(undefined);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const enteredDate = new Date(e.target.value);
@@ -113,12 +116,16 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 						)}
 					</FormControl>
 					<FormControl>
-						<FormLabel>Indoor Lights:</FormLabel>
+						<FormLabel sx={{ mx: 'auto' }}>Indoor Lights</FormLabel>
 						<Toggle state={indoorLights} setState={setIndoorLights} onComponent={<Lightbulb />} offComponent={<LightbulbOutlined />} />
 					</FormControl>
 					<FormControl>
-						<FormLabel>Sunlight:</FormLabel>
+						<FormLabel sx={{ mx: 'auto' }}>Sunlight</FormLabel>
 						<Toggle state={sunlight} setState={setSunlight} onComponent={<WbSunny />} offComponent={<CurtainsClosed />} />
+					</FormControl>
+					<FormControl>
+						<FormLabel sx={{ mx: 'auto' }}>Download</FormLabel>
+						<Download3DButton scene={scene} username={username} dateRange={dateRange} setError={setErrorMessage} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
@@ -139,7 +146,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 						</PerspectiveCamera>
 						<Lights sunlight={sunlight} indoorLights={indoorLights} />
 						<ambientLight intensity={0.4 * SCALE} color={errorMessage || dateErr ? 'red' : 'white'} />
-						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} />
+						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} setScene={setScene} />
 						{enableBase && (
 							<>
 								<mesh position={[0, -16 * SCALE, 0]} receiveShadow>

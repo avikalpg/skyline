@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
-import { GroupProps, useFrame } from "@react-three/fiber";
-import { Group } from "three";
+import { GroupProps, useFrame, useThree } from "@react-three/fiber";
+import { Group, Scene } from "three";
 import { BasePlatform } from "./BasePlatform";
 import { material, SCALE } from "src/utils/3dUtils";
 interface Skyline3DProps extends GroupProps {
 	data: number[][],
 	username: string,
 	dateRange?: string,
+	setScene?: (scene: Scene) => void
 }
 
 function Skyline3d(props: Skyline3DProps) {
@@ -18,6 +19,10 @@ function Skyline3d(props: Skyline3DProps) {
 	// Subscribe this component to the render-loop, rotate the mesh every frame
 	useFrame((state, delta) => (ref.current && rotation) ? (ref.current.rotation.y -= 0.002) : null);
 	// Return the view, these are regular Threejs elements expressed in JSX
+
+	const scene = useThree(({ scene }) => scene);
+	if (props.setScene) props.setScene(scene);
+
 	return (
 		<>
 			<group
