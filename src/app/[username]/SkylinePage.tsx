@@ -1,6 +1,6 @@
 'use client';
 
-import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Switch, Typography } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
 import { PCFSoftShadowMap } from "three";
