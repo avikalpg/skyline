@@ -1,12 +1,13 @@
+import { SCALE } from "src/utils/3dUtils";
 import { AmbientLight, DirectionalLight, Vector3 } from "three";
 
 function IndoorLights() {
 	return (
 		<group>
-			<pointLight position={new Vector3(-10, 15, 15)} intensity={300} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(10, 15, 15)} intensity={300} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(-10, 15, -15)} intensity={300} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(10, 15, -15)} intensity={300} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(-15 * SCALE, 25 * SCALE, 10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(15 * SCALE, 25 * SCALE, 10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(-15 * SCALE, 25 * SCALE, -10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(15 * SCALE, 25 * SCALE, -10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
 		</group>
 	);
 }
@@ -17,8 +18,9 @@ function IndoorLights() {
  * @returns Directional and ambient light based on sun's position
  */
 function SunLight({ latitude = 0 }: { latitude: number }) {
+	const INTENSITY_MULTIPLIER = 20 * SCALE;
 	const light = new DirectionalLight();
-	const time = new Date()
+	const time = new Date();
 	const hours = time.getHours() + time.getMinutes() / 60
 
 	// Get day of year (0-365)
@@ -27,7 +29,7 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 	const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24))
 
 	// Calculate solar declination angle
-	const declination = 23.45 * Math.sin((360 / 365) * (dayOfYear - 81) * Math.PI / 180)
+	const declination = 23.45 * Math.sin((2 * Math.PI / 365) * (dayOfYear - 81))
 
 	// Calculate solar elevation angle
 	const solarHour = (hours - 12) * 15
@@ -52,7 +54,7 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 	light.position.y = distance * Math.sin(elevation)
 
 	// Adjust intensity based on elevation angle
-	const intensity = Math.sin(elevation) * 20
+	const intensity = Math.sin(elevation) * INTENSITY_MULTIPLIER
 	light.intensity = Math.max(0, intensity)
 
 	// Color temperature adjustments based on elevation
@@ -72,16 +74,16 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 
 	// casting shadows
 	light.castShadow = true
-	light.shadow.camera.left = -10;
-	light.shadow.camera.right = 10;
-	light.shadow.camera.top = 10;
-	light.shadow.camera.bottom = -10;
+	light.shadow.camera.left = -40 * SCALE;
+	light.shadow.camera.right = 40 * SCALE;
+	light.shadow.camera.top = 40 * SCALE;
+	light.shadow.camera.bottom = -40 * SCALE;
 	light.shadow.camera.near = 0.1;
 	light.shadow.camera.far = 100;
 	light.shadow.mapSize.width = 2048;
 	light.shadow.mapSize.height = 2048;
 
-	const ambientComponent = new AmbientLight(0x404040, 4 * (1 + intensity / 20));
+	const ambientComponent = new AmbientLight(0x404040, 4 * (1 + intensity / INTENSITY_MULTIPLIER));
 	console.log(`ambient intensity: ${ambientComponent.intensity}`)
 
 	return (
@@ -102,7 +104,7 @@ export function Lights(props: LightProps) {
 	return (
 		<group>
 			{props.indoorLights ? <IndoorLights /> : null}
-			{props.sunlight ? <SunLight latitude={12} /> : null}
+			{props.sunlight ? <SunLight latitude={0} /> : null}
 		</group>
 	);
 }

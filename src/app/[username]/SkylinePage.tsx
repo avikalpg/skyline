@@ -10,6 +10,8 @@ import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../uti
 import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
 import { Lights } from "src/components/Lights";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { SCALE } from "src/utils/3dUtils";
 
 interface SkylinePageProps {
 	username: string;
@@ -71,6 +73,13 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const options = { year: 'numeric', month: 'short' } as const;
 	const dateRange = `${startDate.toLocaleDateString(undefined, options)} - ${endDateString.toLocaleDateString(undefined, options)}`;
 
+	// 3D Scene Controls
+	const enableZoom = searchParams.get("enableZoom") === "false" ? false : true; // default to true
+	const enablePan = searchParams.get("enablePan") === "false" ? false : true; // default to true
+	const enableBase = searchParams.get("base") === "true" ? true : false;
+	const enableDamping =
+		searchParams.get("enableDamping") === "false" ? false : true; // default to true
+
 	return (
 		<SingleFoldPageUIWrapper>
 			<Stack sx={{ width: '100%', height: '100%' }}>
@@ -124,9 +133,24 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 				) : null}
 				{timeline ? (
 					<Canvas shadows={{ type: PCFSoftShadowMap }}>
+						<PerspectiveCamera fov={60} makeDefault position={[0, 1 * SCALE, 50 * SCALE]}>
+							<OrbitControls
+								enableZoom={enableZoom}
+								enablePan={enablePan}
+								enableDamping={enableDamping}
+							/>
+						</PerspectiveCamera>
 						<Lights sunlight={sunlight} indoorLights={indoorLights} />
-						<ambientLight intensity={0.1} color={errorMessage ? 'red' : 'white'} />
-						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -2, -5]} />
+						<ambientLight intensity={0.4 * SCALE} color={errorMessage || dateErr ? 'red' : 'white'} />
+						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} />
+						{enableBase && (
+							<>
+								<mesh position={[0, -16 * SCALE, 0]} receiveShadow>
+									<boxGeometry args={[200 * SCALE, 1 * SCALE, 200 * SCALE]} />
+									<meshStandardMaterial color="grey" opacity={0.8} transparent />
+								</mesh>
+							</>
+						)}
 					</Canvas>
 				) : (
 					<Skeleton variant="rectangular" animation="wave" sx={{
