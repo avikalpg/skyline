@@ -6,7 +6,6 @@ import { exportGLTFModel, exportSTLModel } from "src/utils/3dExport";
 
 export function Download3DButton({ scene, username, dateRange, setError }: { scene?: Scene, username: string, dateRange: string, setError?: (error: string) => void }) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		if (anchorEl) {
@@ -57,13 +56,13 @@ export function Download3DButton({ scene, username, dateRange, setError }: { sce
 				<SaveAlt />
 			</IconButton>
 			<Menu
-				open={open}
 				anchorEl={anchorEl}
+				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
 				<MenuItem onClick={downloadSTLModel}>Save STL</MenuItem>
 				<MenuItem onClick={downloadGLTFModel}>Save GLTF</MenuItem>
 			</Menu>
 		</>
-	)
+	);
 }
