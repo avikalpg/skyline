@@ -10,7 +10,7 @@ export function Header() {
 			px: '1em',
 		}}>
 			<Link href="/">
-				<Image src="/skyline-logo-transparent.png" alt="git-skyline logo" width={50} height={50} objectFit="cover" />
+				<Image src="/skyline-logo-transparent.png" alt="git-skyline logo" width={50} height={50} style={{ objectFit: 'cover' }} />
 			</Link>
 			<Typography level="h3">Git Skyline</Typography>
 			<ModeToggle />
