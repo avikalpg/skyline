@@ -16,7 +16,17 @@ function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 			textAlign: 'center'
 		}}>
 			<Header />
-			{props.children}
+			<div style={{
+				flex: 1,
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				gap: '2em',
+				padding: '2em',
+			}}>
+				{props.children}
+			</div>
 			<Footer />
 		</Sheet>
 	)

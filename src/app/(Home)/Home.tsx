@@ -8,7 +8,7 @@ import { Suspense } from 'react';
 function Home() {
 	return (
 		<SingleFoldPageUIWrapper>
-			<div>
+			<div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
 				<Typography level="h1" component="h1">
 					Your GitHub story in 3D
 				</Typography>

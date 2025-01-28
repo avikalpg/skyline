@@ -32,7 +32,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const [endDate, setEndDate] = useState(initialEndDate);
 	const [dateErr, setDateErr] = useState("");
 
-	const [indoorLights, setIndoorLights] = useState(false);
+	const [indoorLights, setIndoorLights] = useState(true);
 	const [sunlight, setSunlight] = useState(true);
 
 	const searchParams = useSearchParams();
