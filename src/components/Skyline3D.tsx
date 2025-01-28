@@ -1,15 +1,16 @@
 import React, { useRef, useState } from "react";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group } from "three";
-
-const SCALE = 0.25
-
+import { BasePlatform } from "./BasePlatform";
+import { SCALE } from "src/utils/3dUtils";
 interface Skyline3DProps extends GroupProps {
-	data: number[][]
+	data: number[][],
+	username: string,
+	dateRange?: string,
 }
 
 function Skyline3d(props: Skyline3DProps) {
-	const { data, ...groupProps } = props;
+	const { data, username, dateRange, ...groupProps } = props;
 	// This reference gives us direct access to the THREE.Mesh object
 	const ref = useRef<Group>(null);
 	// Hold state for hovered and clicked events
@@ -28,10 +29,7 @@ function Skyline3d(props: Skyline3DProps) {
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
 			>
-				<mesh receiveShadow position={[-0.5 * SCALE, -0.5 * SCALE, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-					<boxGeometry args={[52 * SCALE, 7 * SCALE, 1 * SCALE]} />
-					<meshStandardMaterial color="grey" />
-				</mesh>
+				<BasePlatform username={username} dateRange={dateRange} />
 				{props.data.map((row, i) => row.map((bar, j) => {
 					if (bar === 0) return null;
 					const barHeight = bar * 5;

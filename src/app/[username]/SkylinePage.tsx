@@ -62,6 +62,11 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 		}
 	}, [error]);
 
+	const startDate = getFirstDayOfYearFromLastDay(endDate);
+	const endDateString = endDate;
+	const options = { year: 'numeric', month: 'short' } as const;
+	const dateRange = `${startDate.toLocaleDateString(undefined, options)} - ${endDateString.toLocaleDateString(undefined, options)}`;
+
 	return (
 		<SingleFoldPageUIWrapper>
 			<Stack sx={{ width: '100%', height: '100%' }}>
@@ -72,7 +77,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					</FormControl>
 					<FormControl error={dateErr && dateErr !== "" ? true : false}>
 						<FormLabel>Start Date:</FormLabel>
-						<Input type="date" disabled value={getFirstDayOfYearFromLastDay(endDate).toISOString().split('T')[0]} />
+						<Input type="date" disabled value={startDate.toISOString().split('T')[0]} />
 					</FormControl>
 					<FormControl error={dateErr && dateErr !== "" ? true : false}>
 						<FormLabel>End Date:</FormLabel>
@@ -104,7 +109,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 						{/* <ThreeDObject /> */}
 						<pointLight position={new Vector3(-10, 15, 15)} intensity={800} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
 						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
-						<Skyline3d data={timeline} position={[0, -2, -5]} />
+						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -2, -5]} />
 					</Canvas>
 				) : (
 					<Skeleton variant="rectangular" animation="wave" sx={{
