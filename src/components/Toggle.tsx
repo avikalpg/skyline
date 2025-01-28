@@ -27,8 +27,9 @@ function Toggle({ state, setState, onComponent, offComponent }: {
 				'--Switch-thumbSize': '24px',
 				'--Switch-trackWidth': '64px',
 				'--Switch-trackHeight': '32px',
-				ml: 'auto',
-				mr: '1em',
+				ml: '10px',
+				mr: '10px',
+				px: '5px',
 				textAlign: 'start'
 			}}
 			checked={state}
