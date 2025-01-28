@@ -107,3 +107,13 @@ export const hasLeapDayInRange = (endDate: Date) => {
 	const february = new Date(febYear, 1, 29);
 	return february.getMonth() === 1;
 }
+
+export const formatDate = (date: Date) => {
+	const year = date.getFullYear();
+	const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because getMonth() is 0-indexed
+	const day = date.getDate().toString().padStart(2, '0');
+
+	const formattedDate = `${year}-${month}-${day}`;
+
+	return formattedDate;
+}

@@ -6,7 +6,7 @@ import { Canvas } from "@react-three/fiber";
 import { PCFSoftShadowMap } from "three";
 import Skyline3d from "../../components/Skyline3D";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
+import { formatDate, getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
 import { Lights } from "src/components/Lights";
@@ -40,18 +40,19 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const enteredDate = new Date(e.target.value);
-		const minDateObj = new Date(minDate)
-		const maxDateObj = new Date(maxDate)
-		setEndDate(enteredDate);
-		if (enteredDate < minDateObj || enteredDate > maxDateObj) {
+		const minDateObj = new Date(minDate);
+		const maxDateObj = new Date(maxDate);
+
+		if (isNaN(enteredDate.getTime()) || enteredDate < minDateObj || enteredDate > maxDateObj) {
 			// Show an error message or handle out-of-range input as needed
-			const errMsg = `Valid dates: ${minDateObj.getFullYear()}-${maxDateObj.getFullYear()}`
+			const errMsg = `Valid dates: ${minDateObj.getFullYear()}-${maxDateObj.getFullYear()}`;
 			console.error(`Invalid date: out of range (${minDateObj.getFullYear()}-${maxDateObj.getFullYear()})`);
 			setDateErr(errMsg);
 		} else {
-			setDateErr("")
+			setDateErr("");
+			setEndDate(enteredDate);
 			const newSearchParams = new URLSearchParams(searchParams);
-			newSearchParams.set('endDate', e.target.value);
+			newSearchParams.set('endDate', formatDate(enteredDate));
 			router.push(`/${username}?${newSearchParams.toString()}`);
 		}
 	};
@@ -92,7 +93,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					</FormControl>
 					<FormControl error={dateErr && dateErr !== "" ? true : false}>
 						<FormLabel>Start Date:</FormLabel>
-						<Input type="date" disabled value={startDate.toISOString().split('T')[0]} />
+						<Input type="date" disabled value={formatDate(startDate)} />
 					</FormControl>
 					<FormControl error={dateErr && dateErr !== "" ? true : false}>
 						<FormLabel>End Date:</FormLabel>
@@ -104,7 +105,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 									max: maxDate,
 								}
 							}}
-							value={endDate.toISOString().split('T')[0]}
+							defaultValue={formatDate(endDate)}
 							onChange={handleChange}
 						/>
 						{dateErr && dateErr !== "" && (
