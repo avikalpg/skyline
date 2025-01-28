@@ -12,6 +12,8 @@ import { GitHubContributionCalendar } from 'src/github-types';
 import { Lights } from "src/components/Lights";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { SCALE } from "src/utils/3dUtils";
+import Toggle from "src/components/Toggle";
+import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
 
 interface SkylinePageProps {
 	username: string;
@@ -83,7 +85,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	return (
 		<SingleFoldPageUIWrapper>
 			<Stack sx={{ width: '100%', height: '100%' }}>
-				<Stack sx={{ display: 'flex', flexDirection: 'row', gap: 2, mx: 'auto' }}>
+				<Stack sx={{ display: 'flex', flexDirection: 'row', gap: 2, mx: 'auto', flexWrap: 'wrap', justifyContent: 'center' }}>
 					<FormControl error={dateErr && dateErr !== "" ? true : false}>
 						<FormLabel>Username:</FormLabel>
 						<Input type="text" disabled value={username} />
@@ -111,17 +113,11 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					</FormControl>
 					<FormControl>
 						<FormLabel>Indoor Lights:</FormLabel>
-						<Switch
-							checked={indoorLights}
-							onChange={() => setIndoorLights(!indoorLights)}
-						/>
+						<Toggle state={indoorLights} setState={setIndoorLights} onComponent={<Lightbulb />} offComponent={<LightbulbOutlined />} />
 					</FormControl>
 					<FormControl>
 						<FormLabel>Sunlight:</FormLabel>
-						<Switch
-							checked={sunlight}
-							onChange={() => setSunlight(!sunlight)}
-						/>
+						<Toggle state={sunlight} setState={setSunlight} onComponent={<WbSunny />} offComponent={<CurtainsClosed />} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
