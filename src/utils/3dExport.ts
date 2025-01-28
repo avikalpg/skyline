@@ -19,7 +19,6 @@ export function saveString(text: string, filename: string): void {
 
 export function exportGLTFModel(scene: Scene, filename: string) {
 	const exporter = new GLTFExporter();
-	// const exporter = new STLExporter();
 	exporter.parse(
 		scene,
 		(gltf) => {

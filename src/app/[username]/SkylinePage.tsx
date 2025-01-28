@@ -125,7 +125,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					</FormControl>
 					<FormControl>
 						<FormLabel sx={{ mx: 'auto' }}>Download</FormLabel>
-						<Download3DButton scene={scene} username={username} dateRange={dateRange} />
+						<Download3DButton scene={scene} username={username} dateRange={dateRange} setError={setErrorMessage} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (

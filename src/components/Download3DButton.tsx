@@ -4,7 +4,7 @@ import { Scene } from "three";
 import { useState } from "react";
 import { exportGLTFModel, exportSTLModel } from "src/utils/3dExport";
 
-export function Download3DButton({ scene, username, dateRange }: { scene?: Scene, username: string, dateRange: string }) {
+export function Download3DButton({ scene, username, dateRange, setError }: { scene?: Scene, username: string, dateRange: string, setError?: (error: string) => void }) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -14,24 +14,41 @@ export function Download3DButton({ scene, username, dateRange }: { scene?: Scene
 		} else {
 			setAnchorEl(event.currentTarget);
 		}
+		if (setError) setError("");
 	};
 
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
 
-	function downloadGLTFModel() {
-		if (scene) {
+	async function downloadGLTFModel() {
+		try {
+			if (!scene) {
+				throw new Error('No 3D scene available for export');
+			}
 			exportGLTFModel(scene, `github-${username}-${dateRange}.gltf`);
+			if (setError) setError("");
+		} catch (error) {
+			console.error('Failed to export GLTF model:', error);
+			if (setError) setError("Failed to export GLTF model")
+		} finally {
+			handleClose();
 		}
-		handleClose();
 	}
 
-	function downloadSTLModel() {
-		if (scene) {
+	async function downloadSTLModel() {
+		try {
+			if (!scene) {
+				throw new Error('No 3D scene available for export');
+			}
 			exportSTLModel(scene, `github-${username}-${dateRange}.stl`);
+			if (setError) setError("");
+		} catch (error) {
+			console.error('Failed to export STL model:', error);
+			if (setError) setError("Failed to export STL model")
+		} finally {
+			handleClose();
 		}
-		handleClose();
 	}
 
 	return (
