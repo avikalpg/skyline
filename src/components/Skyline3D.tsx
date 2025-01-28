@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { BasePlatform } from "./BasePlatform";
-import { SCALE } from "src/utils/3dUtils";
+import { material, SCALE } from "src/utils/3dUtils";
 interface Skyline3DProps extends GroupProps {
 	data: number[][],
 	username: string,
@@ -16,7 +16,7 @@ function Skyline3d(props: Skyline3DProps) {
 	// Hold state for hovered and clicked events
 	const [rotation, toggleRot] = useState(true);
 	// Subscribe this component to the render-loop, rotate the mesh every frame
-	useFrame((state, delta) => (ref.current && rotation) ? (ref.current.rotation.y -= 0.01) : null);
+	useFrame((state, delta) => (ref.current && rotation) ? (ref.current.rotation.y -= 0.002) : null);
 	// Return the view, these are regular Threejs elements expressed in JSX
 	return (
 		<>
@@ -24,7 +24,6 @@ function Skyline3d(props: Skyline3DProps) {
 				castShadow
 				receiveShadow
 				position={[0, -1, 0]}
-				rotation={[0.2, -0.25, 0]}
 				{...groupProps}
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
@@ -32,19 +31,16 @@ function Skyline3d(props: Skyline3DProps) {
 				<BasePlatform username={username} dateRange={dateRange} />
 				{props.data.map((row, i) => row.map((bar, j) => {
 					if (bar === 0) return null;
-					const barHeight = bar * 5;
+					const barHeight = bar * 20 * SCALE;
 					const barPosition = [SCALE * (i - Math.floor(data.length / 2)), SCALE * (j - 3)]
 					return (
 						<mesh key={`[${i},${j}]`}
 							position={[barPosition[0], barHeight / 2, barPosition[1]]}
 							castShadow
 							receiveShadow
+							material={material(bar / 8)}
 						>
 							<boxGeometry args={[SCALE, barHeight, SCALE]} />
-							<meshStandardMaterial
-								// wireframe={props.wireframe}
-								color="grey"
-							/>
 						</mesh>
 					)
 				}

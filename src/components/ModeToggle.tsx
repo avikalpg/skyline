@@ -36,7 +36,8 @@ function ModeToggle() {
 				'--Switch-thumbSize': '24px',
 				'--Switch-trackWidth': '64px',
 				'--Switch-trackHeight': '32px',
-				mx: 'auto',
+				ml: 'auto',
+				mr: '1em',
 				textAlign: 'start'
 			}}
 			checked={mode === 'light'}

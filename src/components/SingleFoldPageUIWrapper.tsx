@@ -1,6 +1,7 @@
 import Sheet from '@mui/joy/Sheet';
-import ModeToggle from "../components/ModeToggle";
 import { PropsWithChildren } from 'react';
+import { Header } from './Header';
+import { Footer } from './Footer';
 
 function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 	return (
@@ -8,16 +9,15 @@ function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 			width: '100%',
 			height: '100vh',
 			mx: 'auto', // margin left & right
-			py: 3, // padding top & bottom
-			px: 2, // padding left & right
 			display: 'flex',
 			flexDirection: 'column',
-			gap: 10,
+			gap: '2px',
 			boxSizing: 'border-box',
 			textAlign: 'center'
 		}}>
-			<ModeToggle />
+			<Header />
 			{props.children}
+			<Footer />
 		</Sheet>
 	)
 }
