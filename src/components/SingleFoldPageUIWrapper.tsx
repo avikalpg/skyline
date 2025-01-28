@@ -2,6 +2,7 @@ import Sheet from '@mui/joy/Sheet';
 import { PropsWithChildren } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { Box } from '@mui/joy';
 
 function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 	return (
@@ -16,7 +17,18 @@ function SingleFoldPageUIWrapper(props: PropsWithChildren) {
 			textAlign: 'center'
 		}}>
 			<Header />
-			{props.children}
+			<Box sx={{
+				flex: 1,
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center',
+				gap: '2em',
+				px: '2em',
+				py: '2em',
+			}}>
+				{props.children}
+			</Box>
 			<Footer />
 		</Sheet>
 	)
