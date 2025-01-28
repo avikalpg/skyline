@@ -84,3 +84,26 @@ export const getFirstDayOfYearFromLastDay = (lastDay: Date) => {
 	firstDay.setDate(firstDay.getDate() + 1);
 	return firstDay;
 }
+
+/**
+ * NOTE: This function only exists because GitHub API does not understand leap years are longer than 365 days (and creates problems with the contribution timeline)
+ * @param date current date
+ * @returns the date of the previous day (same time)
+ */
+export const getPreviousDate = (date: Date) => {
+	const newDate = new Date(date);
+	newDate.setDate(date.getDate() - 1);
+	return newDate;
+}
+
+/**
+ * Identifies if the 1-year period before this date has a leap day (February 29th)
+ *
+ * NOTE: This function only exists because GitHub API does not understand leap years are longer than 365 days (and creates problems with the contribution timeline)
+ * @param endDate last day of the 1-year range
+ */
+export const hasLeapDayInRange = (endDate: Date) => {
+	const febYear = endDate.getMonth() > 1 ? endDate.getFullYear() : endDate.getFullYear() - 1;
+	const february = new Date(febYear, 1, 29);
+	return february.getMonth() === 1;
+}
