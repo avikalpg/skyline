@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { GroupProps, useFrame } from "@react-three/fiber";
 import { Group } from "three";
 import { BasePlatform } from "./BasePlatform";
-import { SCALE } from "src/utils/3dUtils";
+import { material, SCALE } from "src/utils/3dUtils";
 interface Skyline3DProps extends GroupProps {
 	data: number[][],
 	username: string,
@@ -39,12 +39,9 @@ function Skyline3d(props: Skyline3DProps) {
 							position={[barPosition[0], barHeight / 2, barPosition[1]]}
 							castShadow
 							receiveShadow
+							material={material(bar / 8)}
 						>
 							<boxGeometry args={[SCALE, barHeight, SCALE]} />
-							<meshStandardMaterial
-								// wireframe={props.wireframe}
-								color="grey"
-							/>
 						</mesh>
 					)
 				}

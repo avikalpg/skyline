@@ -1,14 +1,15 @@
 'use client';
 
-import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Typography } from "@mui/joy";
+import { FormControl, FormHelperText, FormLabel, Input, Skeleton, Stack, Switch, Typography } from "@mui/joy";
 import SingleFoldPageUIWrapper from "../../components/SingleFoldPageUIWrapper";
 import { Canvas } from "@react-three/fiber";
-import { PCFSoftShadowMap, Vector3 } from "three";
+import { PCFSoftShadowMap } from "three";
 import Skyline3d from "../../components/Skyline3D";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
+import { Lights } from "src/components/Lights";
 
 interface SkylinePageProps {
 	username: string;
@@ -26,6 +27,9 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const maxDate = `${currentDate.getFullYear()}-12-31`;
 	const [endDate, setEndDate] = useState(initialEndDate);
 	const [dateErr, setDateErr] = useState("");
+
+	const [indoorLights, setIndoorLights] = useState(false);
+	const [sunlight, setSunlight] = useState(true);
 
 	const searchParams = useSearchParams();
 	const router = useRouter();
@@ -96,6 +100,20 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 							<FormHelperText>{dateErr}</FormHelperText>
 						)}
 					</FormControl>
+					<FormControl>
+						<FormLabel>Indoor Lights:</FormLabel>
+						<Switch
+							checked={indoorLights}
+							onChange={() => setIndoorLights(!indoorLights)}
+						/>
+					</FormControl>
+					<FormControl>
+						<FormLabel>Sunlight:</FormLabel>
+						<Switch
+							checked={sunlight}
+							onChange={() => setSunlight(!sunlight)}
+						/>
+					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
 					<Typography color="danger" variant="soft" level="body-lg" sx={{
@@ -106,9 +124,8 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 				) : null}
 				{timeline ? (
 					<Canvas shadows={{ type: PCFSoftShadowMap }}>
-						{/* <ThreeDObject /> */}
-						<pointLight position={new Vector3(-10, 15, 15)} intensity={800} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-						<ambientLight intensity={0.5} color={errorMessage ? 'red' : 'white'} />
+						<Lights sunlight={sunlight} indoorLights={indoorLights} />
+						<ambientLight intensity={0.1} color={errorMessage ? 'red' : 'white'} />
 						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -2, -5]} />
 					</Canvas>
 				) : (

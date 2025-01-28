@@ -1,5 +1,5 @@
-import { BoxGeometry, MeshStandardMaterial, Vector3 } from 'three';
-import { SCALE } from 'src/utils/3dUtils';
+import { BoxGeometry, Vector3 } from 'three';
+import { material, SCALE } from 'src/utils/3dUtils';
 import { Text3D } from '@react-three/drei';
 
 interface BasePlatformProps {
@@ -83,11 +83,9 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 	geometry.attributes.position.needsUpdate = true;
 	geometry.computeVertexNormals();
 
-	const material = new MeshStandardMaterial({ color: 'grey' });
-
 	return (
 		<group receiveShadow position={[0 * SCALE, -depth / 2, 0]} castShadow>
-			<mesh receiveShadow position={[0, 0, 0]} geometry={geometry} material={material} />
+			<mesh castShadow receiveShadow position={[0, 0, 0]} geometry={geometry} material={material()} />
 			{inscriptions.map((textConfig, index) => (
 				<Text3D
 					key={index}
@@ -102,7 +100,7 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 					rotation={[-Math.atan((baseHeight - topHeight) / depth), 0, 0]}
 					castShadow
 					bevelSegments={5}
-					material={material}
+					material={material(0.1)}
 				>
 					{textConfig.text}
 				</Text3D>
@@ -119,7 +117,7 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 				rotation={[Math.atan((baseHeight - topHeight) / depth), Math.PI, 0]}
 				castShadow
 				bevelSegments={5}
-				material={material}
+				material={material(0.1)}
 			>
 				{creditsText}
 			</Text3D>
