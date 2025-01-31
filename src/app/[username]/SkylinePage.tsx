@@ -15,6 +15,7 @@ import { SCALE } from "src/utils/3dUtils";
 import Toggle from "src/components/Toggle";
 import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
 import { Download3DButton } from "src/components/Download3DButton";
+import { EmbedButton } from "src/components/EmbedButton";
 
 interface SkylinePageProps {
 	username: string;
@@ -126,6 +127,10 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					<FormControl>
 						<FormLabel sx={{ mx: 'auto' }}>Download</FormLabel>
 						<Download3DButton scene={scene} username={username} dateRange={dateRange} setError={setErrorMessage} />
+					</FormControl>
+					<FormControl>
+						<FormLabel sx={{ mx: 'auto' }}>Embed</FormLabel>
+						<EmbedButton username={username} endDate={formatDate(endDate)} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
