@@ -4,6 +4,46 @@ A 3D visualization of your GitHub contributions, inspired by the GitHub skyline 
 ## How to use
 Visit [https://gitskyline.vercel.app](https://gitskyline.vercel.app) to use the application directly.
 
+### Embedding the Skyline in Your Website
+
+You can embed the GitSkyline webpage into your own web page using an `iframe`. This allows you to customize options such as disabling zoom and pan, adding a base, changing colors, adjusting lighting (sunlight and indoor lights), and setting the end date of the skyline. The embedded page will not include the header or footer.
+
+> Example: [My homepage with the embedding](https://avikalpg.github.io/)
+
+To embed the skyline, click on the "Embed Page" button on the GitSkyline website. This will take you to a page with the 3D model alone. Use the URL of this page in an `iframe` on your website.
+
+```html
+<iframe
+  src="https://gitskyline.vercel.app/avikalpg/embed?endDate=2023-12-31&color=white&enableZoom=false"
+  width="100%"
+  height="100%"
+  frameborder="0"
+></iframe>
+```
+
+Customization Options
+By default, the model enables `sunlight`, `indoorLights`, `damping`, `panning`, and `zoom` interactions, disables the `base` flooring, and uses a "grey" `color` for the 3D model. You can customize these settings using URL parameters.
+
+Available Parameters:
+- `endDate`: Set the end date of your 1 year skyline (format: `YYYY-MM-DD`)
+- `color`: Set the color of the 3D model (e.g. `white`, `red` or `%239be9a8` for "#9be9a8" or `%2340c463` for "#40c463")
+- `sunlight`: Enable sunlight (based on your time of day - on equator)
+- `indoorLights`: Enable indoor lights
+- `enableZoom`: Enable zoom interaction
+- `enablePan`: Enable pan interaction
+- `enableDamping`: Enable damping interaction
+- `base`: Enable the base flooring
+
+Example URL with Parameters:
+```html
+<iframe
+  src="https://gitskyline.vercel.app/avikalpg/embed?endDate=2023-12-31&color=%2340c463&sunlight=false&indoorLights=true&enableZoom=false&enablePan=false&enableDamping=false&base=true"
+  width="100%"
+  height="100%"
+  frameborder="0"
+></iframe>
+```
+
 ## Local Development Setup
 If you want to contribute to this project, follow these steps:
 
