@@ -5,9 +5,10 @@ import { Text3D } from '@react-three/drei';
 interface BasePlatformProps {
 	username: string;
 	dateRange?: string;
+	color?: string;
 }
 
-export function BasePlatform({ username, dateRange }: BasePlatformProps) {
+export function BasePlatform({ username, dateRange, color }: BasePlatformProps) {
 	// Dimensions of the base platform
 	const baseWidth = 55 * SCALE;
 	const baseHeight = 9 * SCALE;
@@ -85,7 +86,7 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 
 	return (
 		<group receiveShadow position={[0 * SCALE, -depth / 2, 0]} castShadow>
-			<mesh castShadow receiveShadow position={[0, 0, 0]} geometry={geometry} material={material()} />
+			<mesh castShadow receiveShadow position={[0, 0, 0]} geometry={geometry} material={material(undefined, color)} />
 			{inscriptions.map((textConfig, index) => (
 				<Text3D
 					key={index}
@@ -100,7 +101,7 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 					rotation={[-Math.atan((baseHeight - topHeight) / depth), 0, 0]}
 					castShadow
 					bevelSegments={5}
-					material={material(0.1)}
+					material={material(0.1, color)}
 				>
 					{textConfig.text}
 				</Text3D>
@@ -117,7 +118,7 @@ export function BasePlatform({ username, dateRange }: BasePlatformProps) {
 				rotation={[Math.atan((baseHeight - topHeight) / depth), Math.PI, 0]}
 				castShadow
 				bevelSegments={5}
-				material={material(0.1)}
+				material={material(0.1, color)}
 			>
 				{creditsText}
 			</Text3D>
