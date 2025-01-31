@@ -62,7 +62,8 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 			flexDirection: 'column',
 			gap: '2px',
 			boxSizing: 'border-box',
-			textAlign: 'center'
+			textAlign: 'center',
+            backgroundColor: 'transparent',
 		}}>
 			{(errorMessage && errorMessage !== "") ? (
 				<Typography color="danger" variant="soft" level="body-lg" sx={{
