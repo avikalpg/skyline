@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body>
+			<body style={{backgroundColor: "transparent"}}>
 				<ThemeRegistry options={{ key: 'joy' }}>{children}</ThemeRegistry>
 				<Analytics />
 			</body>
