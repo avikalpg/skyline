@@ -7,7 +7,8 @@ interface Skyline3DProps extends GroupProps {
 	data: number[][],
 	username: string,
 	dateRange?: string,
-	setScene?: (scene: Scene) => void
+	setScene?: (scene: Scene) => void,
+	color?: string,
 }
 
 function Skyline3d(props: Skyline3DProps) {
@@ -33,7 +34,7 @@ function Skyline3d(props: Skyline3DProps) {
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
 			>
-				<BasePlatform username={username} dateRange={dateRange} />
+				<BasePlatform username={username} dateRange={dateRange} color={props.color} />
 				{props.data.map((row, i) => row.map((bar, j) => {
 					if (bar === 0) return null;
 					const barHeight = bar * 20 * SCALE;
@@ -43,7 +44,7 @@ function Skyline3d(props: Skyline3DProps) {
 							position={[barPosition[0], barHeight / 2, barPosition[1]]}
 							castShadow
 							receiveShadow
-							material={material(bar / 8)}
+							material={material(bar / 8, props.color)}
 						>
 							<boxGeometry args={[SCALE, barHeight, SCALE]} />
 						</mesh>
