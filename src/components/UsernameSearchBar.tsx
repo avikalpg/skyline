@@ -17,6 +17,13 @@ function UsernameSearchBar() {
 		window.location.href = `/${username}`;
 	}
 
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			getGitHubContributions();
+		}
+	};
+
 	return (
 		<Stack>
 			<Input
@@ -40,6 +47,7 @@ function UsernameSearchBar() {
 					'--Input-decoratorChildHeight': `28px`,
 				}}
 				onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value)}
+				onKeyDown={handleKeyDown}
 			/>
 			{(!errorMessage || errorMessage === "") ? null : (
 				<Typography color='danger' level='body-md' variant='soft' sx={{
