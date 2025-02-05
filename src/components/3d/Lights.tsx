@@ -1,7 +1,6 @@
-import { SCALE } from "src/utils/3dUtils";
 import { AmbientLight, DirectionalLight, Vector3 } from "three";
 
-function IndoorLights() {
+function IndoorLights({ SCALE }: { SCALE: number }) {
 	const xOffset = 15 * SCALE;
 	const yOffset = 25 * SCALE;
 	const zOffset = 10 * SCALE;
@@ -21,7 +20,7 @@ function IndoorLights() {
  * @param latitude Latitude in degrees
  * @returns Directional and ambient light based on sun's position
  */
-function SunLight({ latitude = 0 }: { latitude: number }) {
+function SunLight({ latitude = 0, SCALE }: { latitude: number, SCALE: number }) {
 	const INTENSITY_MULTIPLIER = 20;
 	const light = new DirectionalLight();
 	const time = new Date();
@@ -102,13 +101,14 @@ interface LightProps {
 	indoorLights?: boolean;
 	sunlight?: boolean;
 	latitude?: number;
+	SCALE: number;
 }
 
 export function Lights(props: LightProps) {
 	return (
 		<group>
-			{props.indoorLights ? <IndoorLights /> : null}
-			{props.sunlight ? <SunLight latitude={0} /> : null}
+			{props.indoorLights ? <IndoorLights SCALE={props.SCALE} /> : null}
+			{props.sunlight ? <SunLight latitude={0} SCALE={props.SCALE} /> : null}
 		</group>
 	);
 }

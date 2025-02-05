@@ -1,14 +1,15 @@
 import { BoxGeometry, Vector3 } from 'three';
-import { material, SCALE } from 'src/utils/3dUtils';
+import { material } from 'src/utils/3dUtils';
 import { Text3D } from '@react-three/drei';
 
 interface BasePlatformProps {
 	username: string;
 	dateRange?: string;
 	color?: string;
+	SCALE: number;
 }
 
-export function BasePlatform({ username, dateRange, color }: BasePlatformProps) {
+export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatformProps) {
 	// Dimensions of the base platform
 	const baseWidth = 55 * SCALE;
 	const baseHeight = 9 * SCALE;
