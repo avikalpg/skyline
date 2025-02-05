@@ -150,7 +150,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 							/>
 						</PerspectiveCamera>
 						<Lights sunlight={sunlight} indoorLights={indoorLights} />
-						<ambientLight intensity={0.4 * SCALE} color={errorMessage || dateErr ? 'red' : 'white'} />
+						<ambientLight intensity={0.4} color={errorMessage || dateErr ? 'red' : 'white'} />
 						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} setScene={setScene} />
 						{enableBase && (
 							<>
