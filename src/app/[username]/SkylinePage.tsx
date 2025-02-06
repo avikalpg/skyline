@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
 import { Lights } from "src/components/3d/Lights";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { SCALE } from "src/utils/3dUtils";
 import Toggle from "src/components/Toggle";
 import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
 import { Download3DButton } from "src/components/Download3DButton";
@@ -86,6 +85,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const enableBase = searchParams.get("base") === "true" ? true : false;
 	const enableDamping =
 		searchParams.get("enableDamping") === "false" ? false : true; // default to true
+	const SCALE = parseFloat(searchParams.get("scale") || "1"); // default to 1
 
 	return (
 		<SingleFoldPageUIWrapper>
@@ -149,9 +149,9 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 								enableDamping={enableDamping}
 							/>
 						</PerspectiveCamera>
-						<Lights sunlight={sunlight} indoorLights={indoorLights} />
-						<ambientLight intensity={0.4 * SCALE} color={errorMessage || dateErr ? 'red' : 'white'} />
-						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} setScene={setScene} />
+						<Lights sunlight={sunlight} indoorLights={indoorLights} SCALE={SCALE} />
+						<ambientLight intensity={0.4} color={errorMessage || dateErr ? 'red' : 'white'} />
+						<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} setScene={setScene} SCALE={SCALE} />
 						{enableBase && (
 							<>
 								<mesh position={[0, -16 * SCALE, 0]} receiveShadow>

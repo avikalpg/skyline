@@ -1,13 +1,16 @@
-import { SCALE } from "src/utils/3dUtils";
 import { AmbientLight, DirectionalLight, Vector3 } from "three";
 
-function IndoorLights() {
+function IndoorLights({ SCALE }: { SCALE: number }) {
+	const xOffset = 15 * SCALE;
+	const yOffset = 25 * SCALE;
+	const zOffset = 10 * SCALE;
+	const indoorLightIntensity = 4 * (xOffset ** 2) + (yOffset ** 2) + (zOffset ** 2);
 	return (
 		<group>
-			<pointLight position={new Vector3(-15 * SCALE, 25 * SCALE, 10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(15 * SCALE, 25 * SCALE, 10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(-15 * SCALE, 25 * SCALE, -10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
-			<pointLight position={new Vector3(15 * SCALE, 25 * SCALE, -10 * SCALE)} intensity={1000 * SCALE} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(-xOffset, yOffset, zOffset)} intensity={indoorLightIntensity} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(xOffset, yOffset, zOffset)} intensity={indoorLightIntensity} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(-xOffset, yOffset, -zOffset)} intensity={indoorLightIntensity} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
+			<pointLight position={new Vector3(xOffset, yOffset, -zOffset)} intensity={indoorLightIntensity} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} />
 		</group>
 	);
 }
@@ -17,8 +20,8 @@ function IndoorLights() {
  * @param latitude Latitude in degrees
  * @returns Directional and ambient light based on sun's position
  */
-function SunLight({ latitude = 0 }: { latitude: number }) {
-	const INTENSITY_MULTIPLIER = 20 * SCALE;
+function SunLight({ latitude = 0, SCALE }: { latitude: number, SCALE: number }) {
+	const INTENSITY_MULTIPLIER = 20;
 	const light = new DirectionalLight();
 	const time = new Date();
 	const hours = time.getHours() + time.getMinutes() / 60
@@ -48,7 +51,7 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 	) + Math.PI / 4 // Adding 45° for NE orientation
 
 	// Position the sun using spherical coordinates
-	const distance = 10
+	const distance = 10 * SCALE;
 	light.position.x = distance * Math.cos(elevation) * Math.sin(azimuth)
 	light.position.z = distance * Math.cos(elevation) * Math.cos(azimuth)
 	light.position.y = distance * Math.sin(elevation)
@@ -73,14 +76,16 @@ function SunLight({ latitude = 0 }: { latitude: number }) {
 
 	// casting shadows
 	light.castShadow = true
-	light.shadow.camera.left = -40 * SCALE;
-	light.shadow.camera.right = 40 * SCALE;
-	light.shadow.camera.top = 40 * SCALE;
-	light.shadow.camera.bottom = -40 * SCALE;
-	light.shadow.camera.near = 0.1;
-	light.shadow.camera.far = 100;
-	light.shadow.mapSize.width = 2048;
-	light.shadow.mapSize.height = 2048;
+
+	const shadowFrustumSize = 40 * SCALE;
+	light.shadow.camera.left = -shadowFrustumSize;
+	light.shadow.camera.right = shadowFrustumSize;
+	light.shadow.camera.top = shadowFrustumSize;
+	light.shadow.camera.bottom = -shadowFrustumSize;
+	light.shadow.camera.near = 0.1 * SCALE;
+	light.shadow.camera.far = 100 * SCALE;
+	light.shadow.mapSize.width = 2048 * SCALE;
+	light.shadow.mapSize.height = 2048 * SCALE;
 
 	const ambientComponent = new AmbientLight(0x404040, 4 * (1 + intensity / INTENSITY_MULTIPLIER));
 
@@ -96,13 +101,14 @@ interface LightProps {
 	indoorLights?: boolean;
 	sunlight?: boolean;
 	latitude?: number;
+	SCALE: number;
 }
 
 export function Lights(props: LightProps) {
 	return (
 		<group>
-			{props.indoorLights ? <IndoorLights /> : null}
-			{props.sunlight ? <SunLight latitude={0} /> : null}
+			{props.indoorLights ? <IndoorLights SCALE={props.SCALE} /> : null}
+			{props.sunlight ? <SunLight latitude={0} SCALE={props.SCALE} /> : null}
 		</group>
 	);
 }

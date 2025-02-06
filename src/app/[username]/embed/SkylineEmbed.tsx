@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { GitHubContributionCalendar } from 'src/github-types';
 import { Lights } from "src/components/3d/Lights";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { SCALE } from "src/utils/3dUtils";
 
 interface SkylinePageProps {
 	username: string;
@@ -50,8 +49,8 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 	const enableZoom = searchParams.get("enableZoom") === "false" ? false : true; // default to true
 	const enablePan = searchParams.get("enablePan") === "false" ? false : true; // default to true
 	const enableBase = searchParams.get("base") === "true" ? true : false;
-	const enableDamping =
-		searchParams.get("enableDamping") === "false" ? false : true; // default to true
+	const enableDamping = searchParams.get("enableDamping") === "false" ? false : true; // default to true
+	const SCALE = parseFloat(searchParams.get("scale") || "1"); // default to 1
 
 	return (
 		<Sheet variant='soft' sx={{
@@ -63,7 +62,7 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 			gap: '2px',
 			boxSizing: 'border-box',
 			textAlign: 'center',
-            backgroundColor: 'transparent',
+			backgroundColor: 'transparent',
 		}}>
 			{(errorMessage && errorMessage !== "") ? (
 				<Typography color="danger" variant="soft" level="body-lg" sx={{
@@ -81,9 +80,9 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 							enableDamping={enableDamping}
 						/>
 					</PerspectiveCamera>
-					<Lights sunlight={sunlight} indoorLights={indoorLights} />
+					<Lights sunlight={sunlight} indoorLights={indoorLights} SCALE={SCALE} />
 					<ambientLight intensity={0.4 * SCALE} color={errorMessage ? 'red' : 'white'} />
-					<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} color={skylineColor} />
+					<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} color={skylineColor} SCALE={SCALE} />
 					{enableBase && (
 						<>
 							<mesh position={[0, -16 * SCALE, 0]} receiveShadow>
