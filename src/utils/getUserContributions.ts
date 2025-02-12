@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GitHubContributionCalendar } from '../github-types';
+import { GitHubContributionCalendar } from '../types/github-types';
 import { getFirstDayOfYearFromLastDay, getPreviousDate, getSaturdayOfWeek, getSundayOfWeek, hasLeapDayInRange } from './generateContributionTimeline';
 
 const axiosInstance = axios.create({
