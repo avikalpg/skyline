@@ -24,7 +24,7 @@ export function EmbedButton({ username, endDate }: {
 
 	return (
 		<div>
-			<IconButton variant="contained" color="primary" onClick={handleClickOpen}>
+			<IconButton variant="contained" onClick={handleClickOpen}>
 				<Code />
 			</IconButton>
 			<Modal open={open} onClose={handleClose}>

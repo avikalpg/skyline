@@ -43,14 +43,14 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 	const dateRange = `${startDate.toLocaleDateString(undefined, options)} - ${endDateString.toLocaleDateString(undefined, options)}`;
 
 	// 3D Scene Controls
-	const skylineColor = searchParams.get("color") ?? "grey"; // default to grey
-	const sunlight = searchParams.get("sunlight") === "false" ? false : true;
-	const indoorLights = searchParams.get("indoorLights") === "false" ? false : true;
-	const enableZoom = searchParams.get("enableZoom") === "false" ? false : true; // default to true
-	const enablePan = searchParams.get("enablePan") === "false" ? false : true; // default to true
-	const enableBase = searchParams.get("base") === "true" ? true : false;
-	const enableDamping = searchParams.get("enableDamping") === "false" ? false : true; // default to true
-	const SCALE = parseFloat(searchParams.get("scale") || "1"); // default to 1
+	const skylineColor = searchParams?.get("color") ?? "grey"; // default to grey
+	const sunlight = searchParams?.get("sunlight") === "false" ? false : true;
+	const indoorLights = searchParams?.get("indoorLights") === "false" ? false : true;
+	const enableZoom = searchParams?.get("enableZoom") === "false" ? false : true; // default to true
+	const enablePan = searchParams?.get("enablePan") === "false" ? false : true; // default to true
+	const enableBase = searchParams?.get("base") === "true" ? true : false;
+	const enableDamping = searchParams?.get("enableDamping") === "false" ? false : true; // default to true
+	const SCALE = parseFloat(searchParams?.get("scale") || "1"); // default to 1
 
 	return (
 		<Sheet variant='soft' sx={{

@@ -54,7 +54,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 		} else {
 			setDateErr("");
 			setEndDate(enteredDate);
-			const newSearchParams = new URLSearchParams(searchParams);
+			const newSearchParams = new URLSearchParams(searchParams || "");
 			newSearchParams.set('endDate', formatDate(enteredDate));
 			router.push(`/${username}?${newSearchParams.toString()}`);
 		}
@@ -80,12 +80,12 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const dateRange = `${startDate.toLocaleDateString(undefined, options)} - ${endDateString.toLocaleDateString(undefined, options)}`;
 
 	// 3D Scene Controls
-	const enableZoom = searchParams.get("enableZoom") === "false" ? false : true; // default to true
-	const enablePan = searchParams.get("enablePan") === "false" ? false : true; // default to true
-	const enableBase = searchParams.get("base") === "true" ? true : false;
+	const enableZoom = searchParams?.get("enableZoom") === "false" ? false : true; // default to true
+	const enablePan = searchParams?.get("enablePan") === "false" ? false : true; // default to true
+	const enableBase = searchParams?.get("base") === "true" ? true : false;
 	const enableDamping =
-		searchParams.get("enableDamping") === "false" ? false : true; // default to true
-	const SCALE = parseFloat(searchParams.get("scale") || "1"); // default to 1
+		searchParams?.get("enableDamping") === "false" ? false : true; // default to true
+	const SCALE = parseFloat(searchParams?.get("scale") || "1"); // default to 1
 
 	return (
 		<SingleFoldPageUIWrapper>
