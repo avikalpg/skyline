@@ -61,10 +61,10 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 								amount: 100000, // Same as in create-order
 							});
 						} else {
-							setPaymentError('Payment verification failed. Please try again.');
+							setPaymentError(`Payment verification failed. Please contact support with your payment details. Order ID: ${response.razorpay_order_id}`);
 						}
 					} catch (error) {
-						setPaymentError('Payment verification failed. Please try again.');
+						setPaymentError('Payment verification failed. Please contact support with your payment details. Order ID: ' + data.orderId);
 					}
 				},
 				prefill: {
@@ -135,7 +135,7 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 							<Alert
 								color="danger"
 								variant="soft"
-								sx={{ mt: 2 }}
+								sx={{ mt: 1, mx: 2, py: 0.5 }}
 							>
 								{paymentError}
 							</Alert>
