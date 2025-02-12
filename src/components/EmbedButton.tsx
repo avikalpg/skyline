@@ -37,7 +37,6 @@ export function EmbedButton({ username, endDate }: {
 						width: 400,
 						boxShadow: 24,
 						p: 4,
-						borderRadius: 2,
 						bgcolor: 'background.surface',
 					}}
 				>

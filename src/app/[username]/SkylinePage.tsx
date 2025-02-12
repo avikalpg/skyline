@@ -15,6 +15,7 @@ import Toggle from "src/components/Toggle";
 import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
 import { Download3DButton } from "src/components/Download3DButton";
 import { EmbedButton } from "src/components/EmbedButton";
+import { ShipButton } from "src/components/ship/ShipButton";
 
 interface SkylinePageProps {
 	username: string;
@@ -131,6 +132,10 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					<FormControl>
 						<FormLabel sx={{ mx: 'auto' }}>Embed</FormLabel>
 						<EmbedButton username={username} endDate={formatDate(endDate)} />
+					</FormControl>
+					<FormControl>
+						<FormLabel sx={{ mx: 'auto' }}>Ship 3D Print</FormLabel>
+						<ShipButton username={username} startDate={startDate} endDate={endDate} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (
