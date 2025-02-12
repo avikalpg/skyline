@@ -96,13 +96,9 @@ export function ShipButton({ username, startDate, endDate }: {
 						<Button onClick={handleBack} variant="soft" color="primary" startDecorator={<ArrowBack />} sx={{ mt: 2 }}>
 							Back
 						</Button>
-						{(activeStep < steps.length) ? (
+						{(activeStep < steps.length - 1) && (
 							<Button onClick={handleNext} variant="soft" color="primary" endDecorator={<ArrowForward />} sx={{ mt: 2 }}>
 								Next
-							</Button>
-						) : (
-							<Button onClick={handleClose} variant="soft" color="primary" sx={{ mt: 2 }}>
-								Submit
 							</Button>
 						)}
 					</Stack>
