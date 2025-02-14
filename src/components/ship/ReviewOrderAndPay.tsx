@@ -3,13 +3,15 @@ import { ShippingAddress, Skyline3DPrintColor } from "src/types/ship";
 import { useCallback, useState } from 'react';
 import Script from 'next/script';
 import PaymentSuccess from './PaymentSuccess';
+import axios from "axios";
 
-export default function ReviewOrderAndPay({ username, startDate, endDate, color, shippingAddress }: {
+export default function ReviewOrderAndPay({ username, startDate, endDate, color, shippingAddress, markComplete }: {
 	username: string;
 	startDate: Date;
 	endDate: Date;
 	color: Skyline3DPrintColor;
 	shippingAddress: ShippingAddress;
+	markComplete: () => void;
 }) {
 	const [paymentError, setPaymentError] = useState<string | null>(null);
 	const [paymentSuccess, setPaymentSuccess] = useState<{
@@ -22,10 +24,14 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 		setPaymentError(null);
 		try {
 			// Create order
-			const response = await fetch('/api/razorpay/create-order', {
-				method: 'POST',
+			const response = await axios.post('/api/razorpay/create-order', {
+				username,
+				startDate,
+				endDate,
+				color,
+				shippingAddress,
 			});
-			const data = await response.json();
+			const data = await response.data;
 
 			if (!data.orderId) {
 				throw new Error('Failed to create order');
@@ -36,23 +42,19 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 				key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
 				amount: 100000,
 				currency: "INR",
-				name: "Skyline 3D",
-				description: "3D Printed Skyline",
+				name: `Skyline 3D for ${username}`,
+				description: `3D Printed Skyline for ${username}'s GitHub contributions from ${startDate.toDateString()} to ${endDate.toDateString()}`,
 				order_id: data.orderId,
 				handler: async function (response: any) {
 					try {
 						// Verify payment
-						const verifyResponse = await fetch('/api/razorpay/verify-payment', {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/json' },
-							body: JSON.stringify({
-								razorpay_order_id: response.razorpay_order_id,
-								razorpay_payment_id: response.razorpay_payment_id,
-								razorpay_signature: response.razorpay_signature,
-							}),
-						});
+						const verifyResponse = await axios.post('/api/razorpay/verify-payment', JSON.stringify({
+							razorpay_order_id: response.razorpay_order_id,
+							razorpay_payment_id: response.razorpay_payment_id,
+							razorpay_signature: response.razorpay_signature,
+						}));
 
-						const verifyData = await verifyResponse.json();
+						const verifyData = await verifyResponse.data;
 
 						if (verifyData.verified) {
 							setPaymentSuccess({
@@ -60,6 +62,7 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 								paymentId: response.razorpay_payment_id,
 								amount: 100000, // Same as in create-order
 							});
+							markComplete();
 						} else {
 							setPaymentError(`Payment verification failed. Please contact support with your payment details. Order ID: ${response.razorpay_order_id}`);
 						}

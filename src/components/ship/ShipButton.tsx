@@ -91,7 +91,7 @@ export function ShipButton({ username, startDate, endDate }: {
 					</Stepper>
 					{activeStep === 0 && (<FinalizeSkyline username={username} startDate={startDate} endDate={endDate} color={color} setColor={setColor} />)}
 					{activeStep === 1 && (<ShippingDetails address={shippingAddress} setAddress={setShippingAddress} />)}
-					{activeStep === 2 && (<ReviewOrderAndPay username={username} startDate={startDate} endDate={endDate} color={color} shippingAddress={shippingAddress} />)}
+					{activeStep >= 2 && (<ReviewOrderAndPay username={username} startDate={startDate} endDate={endDate} color={color} shippingAddress={shippingAddress} markComplete={handleNext} />)}
 					<Stack direction="row" spacing={1} sx={{ mt: 4, justifyContent: 'space-between' }}>
 						<Button onClick={handleBack} variant="soft" color="primary" startDecorator={<ArrowBack />} sx={{ mt: 2 }}>
 							Back
