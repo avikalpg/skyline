@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 function UsernameSearchBar() {
 	const searchParams = useSearchParams();
 	const [username, setUsername] = React.useState("");
-	const [errorMessage, setErrorMessage] = React.useState(searchParams.get('err'));
+	const [errorMessage, setErrorMessage] = React.useState(searchParams?.get('err') ?? null);
 
 	const getGitHubContributions = () => {
 		if (username === "") {

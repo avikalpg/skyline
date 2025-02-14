@@ -12,7 +12,9 @@ export function Header() {
 			<Link href="/">
 				<Image src="/skyline-logo-transparent.png" alt="git-skyline logo" width={50} height={50} style={{ objectFit: 'cover' }} />
 			</Link>
-			<Typography level="h3">Git Skyline</Typography>
+			<Link href="/" style={{ textDecoration: 'none' }}>
+				<Typography level="h3">Git Skyline</Typography>
+			</Link>
 			<ModeToggle />
 		</Stack>
 	)

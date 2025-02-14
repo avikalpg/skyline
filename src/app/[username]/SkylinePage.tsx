@@ -8,13 +8,14 @@ import Skyline3d from "../../components/3d/Skyline3D";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { formatDate, getFirstDayOfYearFromLastDay, structureTimelineByWeek } from "../../utils/generateContributionTimeline";
 import { useEffect, useState } from "react";
-import { GitHubContributionCalendar } from 'src/github-types';
+import { GitHubContributionCalendar } from 'src/types/github-types';
 import { Lights } from "src/components/3d/Lights";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Toggle from "src/components/Toggle";
 import { CurtainsClosed, Lightbulb, LightbulbOutlined, WbSunny } from "@mui/icons-material";
 import { Download3DButton } from "src/components/Download3DButton";
 import { EmbedButton } from "src/components/EmbedButton";
+import { ShipButton } from "src/components/ship/ShipButton";
 
 interface SkylinePageProps {
 	username: string;
@@ -54,7 +55,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 		} else {
 			setDateErr("");
 			setEndDate(enteredDate);
-			const newSearchParams = new URLSearchParams(searchParams);
+			const newSearchParams = new URLSearchParams(searchParams || "");
 			newSearchParams.set('endDate', formatDate(enteredDate));
 			router.push(`/${username}?${newSearchParams.toString()}`);
 		}
@@ -80,12 +81,12 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const dateRange = `${startDate.toLocaleDateString(undefined, options)} - ${endDateString.toLocaleDateString(undefined, options)}`;
 
 	// 3D Scene Controls
-	const enableZoom = searchParams.get("enableZoom") === "false" ? false : true; // default to true
-	const enablePan = searchParams.get("enablePan") === "false" ? false : true; // default to true
-	const enableBase = searchParams.get("base") === "true" ? true : false;
+	const enableZoom = searchParams?.get("enableZoom") === "false" ? false : true; // default to true
+	const enablePan = searchParams?.get("enablePan") === "false" ? false : true; // default to true
+	const enableBase = searchParams?.get("base") === "true" ? true : false;
 	const enableDamping =
-		searchParams.get("enableDamping") === "false" ? false : true; // default to true
-	const SCALE = parseFloat(searchParams.get("scale") || "1"); // default to 1
+		searchParams?.get("enableDamping") === "false" ? false : true; // default to true
+	const SCALE = parseFloat(searchParams?.get("scale") || "1"); // default to 1
 
 	return (
 		<SingleFoldPageUIWrapper>
@@ -131,6 +132,10 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 					<FormControl>
 						<FormLabel sx={{ mx: 'auto' }}>Embed</FormLabel>
 						<EmbedButton username={username} endDate={formatDate(endDate)} />
+					</FormControl>
+					<FormControl>
+						<FormLabel sx={{ mx: 'auto' }}>Ship 3D Print</FormLabel>
+						<ShipButton username={username} startDate={startDate} endDate={endDate} />
 					</FormControl>
 				</Stack>
 				{(errorMessage && errorMessage !== "") ? (

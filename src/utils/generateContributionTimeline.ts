@@ -1,4 +1,4 @@
-import { GitHubContributionCalendar } from "../github-types";
+import { GitHubContributionCalendar } from "../types/github-types";
 
 export const structureTimelineByWeek = (dateCountMap: GitHubContributionCalendar) => {
 	const timelineByWeek: number[][] = []

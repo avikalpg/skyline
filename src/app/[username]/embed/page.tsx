@@ -1,6 +1,6 @@
 import "../../../index.css";
 import { getUserContributions } from '../../../utils/getUserContributions';
-import { GitHubContributionCalendar } from '../../../github-types';
+import { GitHubContributionCalendar } from '../../../types/github-types';
 import SkylineEmbed from './SkylineEmbed';
 import { notFound } from 'next/navigation';
 
