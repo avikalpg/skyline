@@ -1,7 +1,7 @@
 {
   "name": "skyline",
-  "version": "1.4.0",
-  "homepage": "https://gitskyline.vercel.app",
+  "version": "1.4.1",
+  "homepage": "https://skyline3d.in",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",

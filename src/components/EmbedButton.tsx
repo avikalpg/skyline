@@ -8,7 +8,7 @@ export function EmbedButton({ username, endDate }: {
 }) {
 	const [open, setOpen] = useState(false);
 	const embedCode = `<iframe
-		src="https://gitskyline.vercel.app/${username}/embed?endDate=${endDate}&enableZoom=false"
+		src="https://skyline3d.in/${username}/embed?endDate=${endDate}&enableZoom=false"
 		width="100%"
 		height="100%"
 		frameborder="0"
