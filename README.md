@@ -2,19 +2,19 @@
 A 3D visualization of your GitHub contributions, inspired by the GitHub skyline project.
 
 ## How to use
-Visit [https://gitskyline.vercel.app](https://gitskyline.vercel.app) to use the application directly.
+Visit [https://skyline3d.in](https://skyline3d.in) to use the application directly.
 
 ### Embedding the Skyline in Your Website
 
-You can embed the GitSkyline webpage into your own web page using an `iframe`. This allows you to customize options such as disabling zoom and pan, adding a base, changing colors, adjusting lighting (sunlight and indoor lights), and setting the end date of the skyline. The embedded page will not include the header or footer.
+You can embed the Skyline webpage into your own web page using an `iframe`. This allows you to customize options such as disabling zoom and pan, adding a base, changing colors, adjusting lighting (sunlight and indoor lights), and setting the end date of the skyline. The embedded page will not include the header or footer.
 
 > Example: [My homepage with the embedding](https://avikalpg.github.io/)
 
-To embed the skyline, click on the "Embed Page" button on the GitSkyline website. This will take you to a page with the 3D model alone. Use the URL of this page in an `iframe` on your website.
+To embed the skyline, click on the "Embed Page" button on the Skyline website. This will take you to a page with the 3D model alone. Use the URL of this page in an `iframe` on your website.
 
 ```html
 <iframe
-  src="https://gitskyline.vercel.app/avikalpg/embed?endDate=2023-12-31&color=white&enableZoom=false"
+  src="https://skyline3d.in/avikalpg/embed?endDate=2023-12-31&color=white&enableZoom=false"
   width="100%"
   height="100%"
   frameborder="0"
@@ -37,7 +37,7 @@ Available Parameters:
 Example URL with Parameters:
 ```html
 <iframe
-  src="https://gitskyline.vercel.app/avikalpg/embed?endDate=2023-12-31&color=%2340c463&sunlight=false&indoorLights=true&enableZoom=false&enablePan=false&enableDamping=false&base=true"
+  src="https://skyline3d.in/avikalpg/embed?endDate=2023-12-31&color=%2340c463&sunlight=false&indoorLights=true&enableZoom=false&enablePan=false&enableDamping=false&base=true"
   width="100%"
   height="100%"
   frameborder="0"
