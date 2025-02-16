@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useColorScheme } from '@mui/joy/styles';
 import { DarkMode, LightMode } from "@mui/icons-material";
