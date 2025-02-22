@@ -51,6 +51,7 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 	const enableBase = searchParams?.get("base") === "true" ? true : false;
 	const enableDamping = searchParams?.get("enableDamping") === "false" ? false : true; // default to true
 	const SCALE = parseFloat(searchParams?.get("scale") || "1"); // default to 1
+	const customMessage = searchParams?.get("customMessage") || "";
 
 	return (
 		<Sheet variant='soft' sx={{
@@ -82,7 +83,7 @@ export default function SkylineEmbed({ username, userContributionCalendar, endDa
 					</PerspectiveCamera>
 					<Lights sunlight={sunlight} indoorLights={indoorLights} SCALE={SCALE} />
 					<ambientLight intensity={0.4 * SCALE} color={errorMessage ? 'red' : 'white'} />
-					<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} color={skylineColor} SCALE={SCALE} />
+					<Skyline3d data={timeline} username={username} dateRange={dateRange} position={[0, -8 * SCALE, 0]} color={skylineColor} SCALE={SCALE} customMessage={customMessage} />
 					{enableBase && (
 						<>
 							<mesh position={[0, -16 * SCALE, 0]} receiveShadow>

@@ -1,6 +1,6 @@
 {
   "name": "skyline",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "homepage": "https://skyline3d.in",
   "private": true,
   "dependencies": {

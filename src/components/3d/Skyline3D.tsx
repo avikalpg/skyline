@@ -11,10 +11,11 @@ interface Skyline3DProps extends GroupProps {
 	setScene?: (scene: Scene) => void,
 	color?: string,
 	SCALE: number,
+	customMessage?: string,
 }
 
 function Skyline3d(props: Skyline3DProps) {
-	const { data, username, dateRange, SCALE, ...groupProps } = props;
+	const { data, username, dateRange, SCALE, customMessage, ...groupProps } = props;
 	// This reference gives us direct access to the THREE.Mesh object
 	const ref = useRef<Group>(null);
 	// Hold state for hovered and clicked events
@@ -36,7 +37,7 @@ function Skyline3d(props: Skyline3DProps) {
 				ref={ref as React.RefObject<Group>}
 				onClick={(event) => toggleRot(!rotation)}
 			>
-				<BasePlatform username={username} dateRange={dateRange} color={props.color} SCALE={SCALE} />
+				<BasePlatform username={username} dateRange={dateRange} color={props.color} SCALE={SCALE} customMessage={customMessage} />
 				{props.data.map((row, i) => row.map((bar, j) => {
 					if (bar === 0) return null;
 					const barHeight = bar * 20 * SCALE;
