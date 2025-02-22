@@ -86,7 +86,7 @@ export default function SkylinePage({ username, userContributionCalendar, endDat
 	const enableBase = searchParams?.get("base") === "true" ? true : false;
 	const enableDamping =
 		searchParams?.get("enableDamping") === "false" ? false : true; // default to true
-	const SCALE = parseFloat(searchParams?.get("scale") || "1"); // default to 1
+	const SCALE = parseFloat(searchParams?.get("scale") || "0.25"); // default to 1
 
 	return (
 		<SingleFoldPageUIWrapper>
