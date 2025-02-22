@@ -5,6 +5,7 @@ import { Text3D } from '@react-three/drei';
 interface BasePlatformProps {
 	username: string;
 	dateRange?: string;
+	baseMetric?: string;
 	color?: string;
 	SCALE: number;
 	customMessage?: string;
@@ -18,7 +19,7 @@ interface TextProps {
 	thickness?: number;
 }
 
-export function BasePlatform({ username, dateRange, color, SCALE, customMessage }: BasePlatformProps) {
+export function BasePlatform({ username, dateRange, baseMetric, color, SCALE, customMessage }: BasePlatformProps) {
 	// Dimensions of the base platform
 	const baseWidth = 55 * SCALE;
 	const baseHeight = 9 * SCALE;
@@ -49,6 +50,13 @@ export function BasePlatform({ username, dateRange, color, SCALE, customMessage 
 			side: 'back',
 			textScale: 1.5 * SCALE,
 			thickness: 0.75 * SCALE,
+		},
+		{
+			text: baseMetric ?? "",
+			alignment: 'left',
+			side: 'back',
+			textScale: 0.9 * SCALE,
+			thickness: 0.5 * SCALE,
 		},
 		{
 			text: creditsText,
