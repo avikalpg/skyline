@@ -13,6 +13,7 @@ export async function POST(request: Request) {
 				startDate: requestBody.startDate,
 				endDate: requestBody.endDate,
 				color: requestBody.color.label,
+				customMessage: requestBody.customMessage,
 				shippingAddress: JSON.stringify(requestBody.shippingAddress),
 			}
 		};

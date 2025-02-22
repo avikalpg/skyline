@@ -36,6 +36,7 @@ export function ShipButton({ username, startDate, endDate }: {
 	};
 
 	const [color, setColor] = useState({ label: 'grey', value: 'grey' });
+	const [customMessage, setCustomMessage] = useState<string>("");
 	const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
 		name: '',
 		mobile: '',
@@ -89,9 +90,9 @@ export function ShipButton({ username, startDate, endDate }: {
 							</Step>
 						))}
 					</Stepper>
-					{activeStep === 0 && (<FinalizeSkyline username={username} startDate={startDate} endDate={endDate} color={color} setColor={setColor} />)}
+					{activeStep === 0 && (<FinalizeSkyline username={username} startDate={startDate} endDate={endDate} color={color} setColor={setColor} customMessage={customMessage} setCustomMessage={setCustomMessage} />)}
 					{activeStep === 1 && (<ShippingDetails address={shippingAddress} setAddress={setShippingAddress} />)}
-					{activeStep >= 2 && (<ReviewOrderAndPay username={username} startDate={startDate} endDate={endDate} color={color} shippingAddress={shippingAddress} markComplete={handleNext} />)}
+					{activeStep >= 2 && (<ReviewOrderAndPay username={username} startDate={startDate} endDate={endDate} color={color} customMessage={customMessage} shippingAddress={shippingAddress} markComplete={handleNext} />)}
 					<Stack direction="row" spacing={1} sx={{ mt: 4, justifyContent: 'space-between' }}>
 						<Button onClick={handleBack} variant="soft" color="primary" startDecorator={<ArrowBack />} sx={{ mt: 2 }}>
 							Back

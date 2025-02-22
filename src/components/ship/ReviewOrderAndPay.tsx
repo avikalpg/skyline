@@ -5,11 +5,12 @@ import Script from 'next/script';
 import PaymentSuccess from './PaymentSuccess';
 import axios from "axios";
 
-export default function ReviewOrderAndPay({ username, startDate, endDate, color, shippingAddress, markComplete }: {
+export default function ReviewOrderAndPay({ username, startDate, endDate, color, customMessage, shippingAddress, markComplete }: {
 	username: string;
 	startDate: Date;
 	endDate: Date;
 	color: Skyline3DPrintColor;
+	customMessage: string;
 	shippingAddress: ShippingAddress;
 	markComplete: () => void;
 }) {
@@ -29,6 +30,7 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 				startDate,
 				endDate,
 				color,
+				customMessage,
 				shippingAddress,
 			});
 			const data = await response.data;
@@ -105,11 +107,17 @@ export default function ReviewOrderAndPay({ username, startDate, endDate, color,
 						<Typography variant="subtitle1" fontWeight="bold">Date Range:</Typography>
 						<Typography variant="body1">{startDate.toDateString()} - {endDate.toDateString()}</Typography>
 					</Grid>
-					<Grid item xs={12} sm={6} md={4}>
+					<Grid item xs={6} sm={3} md={2}>
 						<Typography variant="subtitle1" fontWeight="bold">Color:</Typography>
 						<Box display="flex" alignItems="center">
 							<Typography variant="body1" mr={1}>{color.label}</Typography>
 							<Box sx={{ backgroundColor: color.value, width: 20, height: 20, borderRadius: '50%' }}></Box>
+						</Box>
+					</Grid>
+					<Grid item xs={6} sm={3} md={2}>
+						<Typography variant="subtitle1" fontWeight="bold">Message:</Typography>
+						<Box display="flex" alignItems="center">
+							<Typography variant="body1" mr={1}>{customMessage}</Typography>
 						</Box>
 					</Grid>
 					<Grid item xs={12}>

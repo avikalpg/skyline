@@ -4,12 +4,14 @@ import Skyline3d from "../3d/Skyline3D";
 import { formatDate } from "src/utils/generateContributionTimeline";
 import { Skyline3DPrintColor } from "src/types/ship";
 
-export default function FinalizeSkyline({ username, startDate, endDate, color, setColor }: {
+export default function FinalizeSkyline({ username, startDate, endDate, color, setColor, customMessage, setCustomMessage }: {
 	username: string;
 	startDate: Date;
 	endDate: Date;
 	color: Skyline3DPrintColor;
 	setColor: (color: Skyline3DPrintColor) => void;
+	customMessage: string;
+	setCustomMessage: (message: string) => void;
 }) {
 	const colorOptions: Skyline3DPrintColor[] = [
 		{ value: "grey", label: "Grey" },
@@ -17,6 +19,8 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 		{ value: "blue", label: "Blue" },
 		{ value: "green", label: "Green" },
 	]
+	const CUSTOM_MESSAGE_MAX_LENGTH = 35;
+
 	return (
 		<Grid container spacing={2} sx={{ mt: 2, flex: 1 }}>
 			<Grid item xs={12} md={6}>
@@ -37,10 +41,19 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 						<Option key={option.value} value={option.value}>{option.label}</Option>
 					))}
 				</Select>
+				<FormLabel sx={{ mt: 2 }}>Custom Message (optional)</FormLabel>
+				<Input
+					placeholder="Contributor of the year!"
+					fullWidth
+					onChange={(e) => setCustomMessage(e.target.value.slice(0, CUSTOM_MESSAGE_MAX_LENGTH))}
+					value={customMessage}
+					endDecorator={<span>{customMessage.length}/{CUSTOM_MESSAGE_MAX_LENGTH}</span>}
+					error={customMessage.length >= CUSTOM_MESSAGE_MAX_LENGTH}
+				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<iframe
-					src={`/${username}/embed?endDate=${formatDate(endDate)}&color=${color.value}&sunlight=false&indoorLights=true`}
+					src={`/${username}/embed?endDate=${formatDate(endDate)}&color=${color.value}&customMessage=${encodeURIComponent(customMessage)}&sunlight=false&indoorLights=true`}
 					width="100%"
 					height="100%"
 				></iframe>

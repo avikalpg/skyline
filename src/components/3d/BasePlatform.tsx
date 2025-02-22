@@ -1,4 +1,4 @@
-import { BoxGeometry, Vector3 } from 'three';
+import { BoxGeometry, Euler, Vector3 } from 'three';
 import { material } from 'src/utils/3dUtils';
 import { Text3D } from '@react-three/drei';
 
@@ -7,9 +7,18 @@ interface BasePlatformProps {
 	dateRange?: string;
 	color?: string;
 	SCALE: number;
+	customMessage?: string;
 }
 
-export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatformProps) {
+interface TextProps {
+	text: string;
+	alignment: 'left' | 'center' | 'right';
+	side: 'front' | 'back';
+	textScale?: number;
+	thickness?: number;
+}
+
+export function BasePlatform({ username, dateRange, color, SCALE, customMessage }: BasePlatformProps) {
 	// Dimensions of the base platform
 	const baseWidth = 55 * SCALE;
 	const baseHeight = 9 * SCALE;
@@ -18,27 +27,45 @@ export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatform
 	const depth = 3 * SCALE;
 
 	// All the text to be written on the base platform
-	const inscriptions: { text?: string, alignment: 'left' | 'center' | 'right' }[] = [
+	const creditsText = "skyline3d.in";
+	const inscriptions: TextProps[] = [
 		{
 			text: username,
 			alignment: 'left',
+			side: 'front',
+			textScale: 1.5 * SCALE,
+			thickness: 1 * SCALE,
 		},
 		{
-			text: dateRange,
+			text: dateRange ?? "",
 			alignment: 'right',
+			side: 'front',
+			textScale: 1.5 * SCALE,
+			thickness: 1 * SCALE,
+		},
+		{
+			text: customMessage ?? "",
+			alignment: 'center',
+			side: 'back',
+			textScale: 1.5 * SCALE,
+			thickness: 0.75 * SCALE,
+		},
+		{
+			text: creditsText,
+			alignment: 'right',
+			side: 'back',
+			textScale: 1 * SCALE,
+			thickness: 0.5 * SCALE,
 		}
 	];
-	const creditsText = "git-skyline by avikalpg";
 
-	const positionFromAlignment = (
-		alignment: 'left' | 'center' | 'right',
-		textLength: number,
-		side: 'front' | 'back' = 'front',
-		textScale: number = 1.5 * SCALE
-	) => {
+	const positionFromConfig = (textConfig: TextProps) => {
+		const { text, alignment, side = 'front', textScale = 1.5 * SCALE } = textConfig;
 		const textOffsetUnit = textScale / 1.5;
-		let x = 0;
+		const textLength = text.length;
 
+		// x-coordinate of the text
+		let x = 0;
 		switch (alignment) {
 			case 'left':
 				x = -topWidth / 2 + 2 * textOffsetUnit;
@@ -50,15 +77,24 @@ export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatform
 				x = topWidth / 2 - (textLength + 2) * textOffsetUnit;
 				break;
 		}
-
 		if (side === 'back') {
 			x *= -1;
 		}
 
-		const y = -depth / 4;
+		// y-coordinate of the text
+		const numLinesInText = (!text) ? 0 : text.split('\n').length;
+		const y = (numLinesInText < 2) ? -depth / 4 : depth / 8;
+
 		const z = side === 'front' ? topHeight / 2 : -topHeight / 2;
 
 		return new Vector3(x, y, z);
+	}
+
+	const rotationFromSide = (side: 'front' | 'back') => {
+		const rotY = side === 'front' ? 0 : Math.PI;
+		const rotX = Math.atan((baseHeight - topHeight) / (2 * depth)) * (side === 'front' ? -1 : 1);
+		// return new Vector3(rotX, rotY, 0);
+		return new Euler(rotX, rotY, 0);
 	}
 
 	// Create the base platform geometry
@@ -92,14 +128,14 @@ export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatform
 				<Text3D
 					key={index}
 					font="/helvetiker_regular.typeface.json"
-					size={1.5 * SCALE}
-					height={1 * SCALE}
+					size={textConfig.textScale ?? 1.5 * SCALE}
+					height={textConfig.thickness ?? 1 * SCALE}
 					curveSegments={12}
 					bevelEnabled
 					bevelThickness={0.03 * SCALE}
 					bevelSize={0.02 * SCALE}
-					position={positionFromAlignment(textConfig.alignment, textConfig.text?.length ?? 0)}
-					rotation={[-Math.atan((baseHeight - topHeight) / depth), 0, 0]}
+					position={positionFromConfig(textConfig)}
+					rotation={rotationFromSide(textConfig.side)}
 					castShadow
 					bevelSegments={5}
 					material={material(0.1, color)}
@@ -107,22 +143,6 @@ export function BasePlatform({ username, dateRange, color, SCALE }: BasePlatform
 					{textConfig.text}
 				</Text3D>
 			))}
-			<Text3D
-				font="/helvetiker_regular.typeface.json"
-				size={1 * SCALE}
-				height={0.5 * SCALE}
-				curveSegments={12}
-				bevelEnabled
-				bevelThickness={0.03 * SCALE}
-				bevelSize={0.02 * SCALE}
-				position={positionFromAlignment('center', creditsText.length, 'back', SCALE)}
-				rotation={[Math.atan((baseHeight - topHeight) / depth), Math.PI, 0]}
-				castShadow
-				bevelSegments={5}
-				material={material(0.1, color)}
-			>
-				{creditsText}
-			</Text3D>
 		</group >
 	);
 }
