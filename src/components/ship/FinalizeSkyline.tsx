@@ -1,8 +1,7 @@
 import { FormLabel, Grid, Input, Option, Select } from "@mui/joy";
-import { Canvas } from "@react-three/fiber";
-import Skyline3d from "../3d/Skyline3D";
 import { formatDate } from "src/utils/generateContributionTimeline";
 import { Skyline3DPrintColor } from "src/types/ship";
+import PrintSampleViewer from './PrintSampleViewer';
 
 export default function FinalizeSkyline({ username, startDate, endDate, color, setColor, customMessage, setCustomMessage }: {
 	username: string;
@@ -17,7 +16,8 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 		{ value: "grey", label: "Grey" },
 		{ value: "red", label: "Red" },
 		{ value: "blue", label: "Blue" },
-		{ value: "green", label: "Green" },
+		{ value: "pink", label: "Pink" },
+		{ value: "orange", label: "Orange" },
 	]
 	const CUSTOM_MESSAGE_MAX_LENGTH = 35;
 
@@ -28,6 +28,15 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 				<Input value={username} disabled fullWidth />
 				<FormLabel sx={{ mt: 2 }}>Date Range</FormLabel>
 				<Input value={`${startDate.toDateString()} - ${endDate.toDateString()}`} disabled fullWidth />
+				<FormLabel sx={{ mt: 2 }}>Custom Message (optional)</FormLabel>
+				<Input
+					placeholder="Contributor of the year!"
+					fullWidth
+					onChange={(e) => setCustomMessage(e.target.value.slice(0, CUSTOM_MESSAGE_MAX_LENGTH))}
+					value={customMessage}
+					endDecorator={<span>{customMessage.length}/{CUSTOM_MESSAGE_MAX_LENGTH}</span>}
+					error={customMessage.length >= CUSTOM_MESSAGE_MAX_LENGTH}
+				/>
 				<FormLabel sx={{ mt: 2 }}>Color</FormLabel>
 				<Select
 					value={color.value}
@@ -41,15 +50,7 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 						<Option key={option.value} value={option.value}>{option.label}</Option>
 					))}
 				</Select>
-				<FormLabel sx={{ mt: 2 }}>Custom Message (optional)</FormLabel>
-				<Input
-					placeholder="Contributor of the year!"
-					fullWidth
-					onChange={(e) => setCustomMessage(e.target.value.slice(0, CUSTOM_MESSAGE_MAX_LENGTH))}
-					value={customMessage}
-					endDecorator={<span>{customMessage.length}/{CUSTOM_MESSAGE_MAX_LENGTH}</span>}
-					error={customMessage.length >= CUSTOM_MESSAGE_MAX_LENGTH}
-				/>
+				<PrintSampleViewer color={color.value} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<iframe
