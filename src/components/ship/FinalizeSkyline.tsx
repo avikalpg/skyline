@@ -15,7 +15,7 @@ export default function FinalizeSkyline({ username, startDate, endDate, color, s
 	const colorOptions: Skyline3DPrintColor[] = [
 		{ value: "grey", label: "Grey" },
 		{ value: "red", label: "Red" },
-		{ value: "blue", label: "Blue" },
+		{ value: "cyan", label: "Cyan" },
 		{ value: "pink", label: "Pink" },
 		{ value: "orange", label: "Orange" },
 	]
